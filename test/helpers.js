@@ -27,8 +27,21 @@ MockReadWriteStream.prototype.write = function (msg) {
   this.emit('data', msg);
 };
 
+//
+// Create some mock streams for asserting against 
+// in our beseech tests.
+//
 helpers.stdin = new MockReadWriteStream();
 helpers.stdout = new MockReadWriteStream();
+helpers.stderr = new MockReadWriteStream();
+
+//
+// Monkey punch `util.error` to silence console output 
+// and redirect to helpers.stderr for testing.
+//
+util.error = function () {
+  helpers.stderr.write.apply(helpers.stderr, arguments);
+}
 
 helpers.properties = {
   email: {
