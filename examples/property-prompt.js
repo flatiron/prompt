@@ -16,6 +16,10 @@ var properties = [
   {
     name: 'password',
     hidden: true
+  },
+  {
+    name: 'something',
+    empty: false,
   }
 ];
 
