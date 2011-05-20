@@ -56,7 +56,24 @@ This will result in the following command-line output:
 
 ### Adding Properties to an Object 
 
+
+
 ## Valid Property Settings
+Beseech uses a simple property system for performing a couple of basic validation operations against input received from the command-line. The motivations here were speed and simplicity of implementation to integration of pseudo-standards like JSON-Schema were not feasible. 
+
+Lets examine the anatomy of a beseech property:
+
+``` js
+  {
+    message: 'Enter your password',     // Prompt displayed to the user. If not supplied name will be used.
+    name: 'password'                    // Key in the JSON object returned from `.get()`.
+    validator: /^\w+$/                  // Regular expression that input must be valid against.
+    warning: 'Password must be letters' // Warning message to display if validation fails.
+    hidden: true                        // If true, characters entered will not be output to console.
+    default: 'lamepassword'             // Default value to use if no value is entered.
+    empty: false                        // If false, value entered must be non-empty.
+  }
+```
 
 ## Running tests
 ```
