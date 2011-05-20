@@ -1,0 +1,22 @@
+{
+  "name": "beseech",
+  "description": "A beautiful command-line prompt for node.js",
+  "version": "0.1.0",
+  "author": "Charlie Robbins <charlie.robbins@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/nodejitsu/beseech.git"
+  },
+  "dependencies": {
+    "async": "0.1.x",
+    "colors": "0.x.x",
+    "winston": "0.2.x"
+  },
+  "main": "./lib/beseech",
+  "scripts": {
+    "test": "vows test/*-test.js --spec"
+  },
+  "engines": {
+    "node": "0.4.x"
+  }
+}
