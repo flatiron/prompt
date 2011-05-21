@@ -1,21 +1,21 @@
 /*
- * simple-prompt.js: Simple example of using the beseech prompt.  
+ * simple-prompt.js: Simple example of using the reprompt prompt.  
  *
  * (C) 2010, Nodejitsu Inc.
  *
  */
  
-var beseech = require('../lib/beseech');
+var reprompt = require('../lib/reprompt');
 
 //
 // Start the prompt
 //
-beseech.start();
+reprompt.start();
 
 //
 // Beseech two properties from the user: username and email
 //
-beseech.get(['username', 'email'], function (err, result) {
+reprompt.get(['username', 'email'], function (err, result) {
   //
   // Log the results.
   //

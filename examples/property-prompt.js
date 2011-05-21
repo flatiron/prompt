@@ -1,11 +1,11 @@
 /*
- * property-prompt.js: Example of using the beseech prompt with complex properties.  
+ * property-prompt.js: Example of using the reprompt prompt with complex properties.  
  *
  * (C) 2010, Nodejitsu Inc.
  *
  */
  
-var beseech = require('../lib/beseech');
+var reprompt = require('../lib/reprompt');
 
 var properties = [
   {
@@ -26,12 +26,12 @@ var properties = [
 //
 // Start the prompt
 //
-beseech.start();
+reprompt.start();
 
 //
 // Beseech two properties from the user: email, password
 //
-beseech.get(properties, function (err, result) {
+reprompt.get(properties, function (err, result) {
   //
   // Log the results.
   //

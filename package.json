@@ -1,18 +1,18 @@
 {
-  "name": "beseech",
+  "name": "reprompt",
   "description": "A beautiful command-line prompt for node.js",
   "version": "0.1.0",
   "author": "Nodejitsu Inc. <info@nodejitsu.com>",
   "repository": {
     "type": "git",
-    "url": "http://github.com/nodejitsu/beseech.git"
+    "url": "http://github.com/nodejitsu/reprompt.git"
   },
   "dependencies": {
     "async": "0.1.x",
     "colors": "0.x.x",
     "winston": "0.2.x"
   },
-  "main": "./lib/beseech",
+  "main": "./lib/reprompt",
   "scripts": {
     "test": "vows test/*-test.js --spec"
   },

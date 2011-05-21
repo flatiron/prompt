@@ -1,5 +1,5 @@
 /*
- * helpers.js: Test helpers for the beseech tests.  
+ * helpers.js: Test helpers for the reprompt tests.  
  *
  * (C) 2010, Nodejitsu Inc.
  *
@@ -29,7 +29,7 @@ MockReadWriteStream.prototype.write = function (msg) {
 
 //
 // Create some mock streams for asserting against 
-// in our beseech tests.
+// in our reprompt tests.
 //
 helpers.stdin = new MockReadWriteStream();
 helpers.stdout = new MockReadWriteStream();
