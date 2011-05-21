@@ -32,6 +32,6 @@ reprompt.get(['email', 'password'], function (err, result) {
   // Log the results.
   //
   console.log('Command-line input received:');
-  console.log('  username: ' + result.username);
+  console.log('  email: ' + result.email);
   console.log('  password: ' + result.password);
 });
