@@ -18,7 +18,7 @@ A beautiful command-line prompt for node.js
 Using node-prompt is relatively straight forward. There are two core methods you should be aware of: `prompt.get()` and `prompt.addProperties()`. There methods take strings representing property names in addition to objects for complex property validation (and more). There are a number of [examples][0] that you should examine for detailed usage.
 
 ### Getting Basic Prompt Information
-Getting started with `prompt` is easy. Lets take a look at `examples/simple-prompt.js`:
+Getting started with `node-prompt` is easy. Lets take a look at `examples/simple-prompt.js`:
 
 ``` js
   var prompt = require('prompt');
@@ -98,7 +98,6 @@ Pretty easy right? The output from the above script is:
   prompt: password: 
   Command-line input received:
     name: Nodejitsu Inc
-    email: foo@gmail.com
     password: some-password  
 ```
 
@@ -120,7 +119,7 @@ Lets examine the anatomy of a prompt property:
 ```
 
 ### Adding Properties to an Object 
-A common use-case for prompting users for data from the command-line is to extend or create a configuration object that is passed onto the entry-point method for your CLI tool. `prompt` exposes a convenience method for doing just this: 
+A common use-case for prompting users for data from the command-line is to extend or create a configuration object that is passed onto the entry-point method for your CLI tool. `node-prompt` exposes a convenience method for doing just this: 
 
 ``` js
   var obj = {
