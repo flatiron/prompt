@@ -1,5 +1,5 @@
 /*
- * prompt-test.js: Tests for the prompt prompt.  
+ * prompt-test.js: Tests for node-prompt.  
  *
  * (C) 2010, Nodejitsu Inc.
  *
