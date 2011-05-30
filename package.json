@@ -9,7 +9,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "http://github.com/nodejitsu/prompt.git"
+    "url": "http://github.com/nodejitsu/node-prompt.git"
   },
   "dependencies": {
     "async": "0.1.x",
