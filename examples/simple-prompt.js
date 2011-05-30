@@ -1,21 +1,21 @@
 /*
- * simple-prompt.js: Simple example of using the reprompt prompt.  
+ * simple-prompt.js: Simple example of using node-prompt.  
  *
  * (C) 2010, Nodejitsu Inc.
  *
  */
  
-var reprompt = require('../lib/reprompt');
+var prompt = require('../lib/prompt');
 
 //
 // Start the prompt
 //
-reprompt.start();
+prompt.start();
 
 //
-// Beseech two properties from the user: username and email
+// Get two properties from the user: username and email
 //
-reprompt.get(['username', 'email'], function (err, result) {
+prompt.get(['username', 'email'], function (err, result) {
   //
   // Log the results.
   //

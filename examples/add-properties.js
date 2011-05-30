@@ -1,16 +1,16 @@
 /*
- * add-properties.js: Example of how to add properties to an object using reprompt.  
+ * add-properties.js: Example of how to add properties to an object using node-prompt.  
  *
  * (C) 2010, Nodejitsu Inc.
  *
  */
  
-var reprompt = require('../lib/reprompt');
+var prompt = require('../lib/prompt');
 
 //
 // Start the prompt
 //
-reprompt.start();
+prompt.start();
 
 var obj = {
   password: 'lamepassword',
@@ -26,7 +26,7 @@ console.dir(obj);
 //
 // Add two properties to the empty object: username and email
 //
-reprompt.addProperties(obj, ['username', 'email'], function (err) {
+prompt.addProperties(obj, ['username', 'email'], function (err) {
   //
   // Log the results.
   //

@@ -1,5 +1,5 @@
 /*
- * reprompt-test.js: Tests for the reprompt prompt.  
+ * prompt-test.js: Tests for the prompt prompt.  
  *
  * (C) 2010, Nodejitsu Inc.
  *
@@ -7,13 +7,13 @@
  
 var assert = require('assert'),
     vows = require('vows'),
-    reprompt = require('../lib/reprompt'),
+    prompt = require('../lib/prompt'),
     helpers = require('./helpers');
 
-vows.describe('reprompt').addBatch({
-  "When using reprompt": {
+vows.describe('prompt').addBatch({
+  "When using prompt": {
     topic: function () {
-      reprompt.start({
+      prompt.start({
         stdin: helpers.stdin, 
         stdout: helpers.stdout
       });
@@ -22,7 +22,7 @@ vows.describe('reprompt').addBatch({
     },
     "the readLine() method": {
       topic: function () {
-        reprompt.readLine(this.callback);
+        prompt.readLine(this.callback);
         helpers.stdin.write('testing\n');
       },
       "should respond with data from the stdin stream": function (err, input) {
@@ -32,7 +32,7 @@ vows.describe('reprompt').addBatch({
     },
     "the readLineHidden() method": {
       topic: function () {
-        reprompt.readLineHidden(this.callback);
+        prompt.readLineHidden(this.callback);
         helpers.stdin.write('testing');
         helpers.stdin.write('\r\n');
       },
@@ -49,7 +49,7 @@ vows.describe('reprompt').addBatch({
             that.msg = msg;
           })
           
-          reprompt.getInput('test input', this.callback);
+          prompt.getInput('test input', this.callback);
           helpers.stdin.write('test value\n');
         },
         "should prompt to stdout and respond with data": function (err, input) {
@@ -66,7 +66,7 @@ vows.describe('reprompt').addBatch({
               that.msg = msg;
             });
 
-            reprompt.getInput(helpers.properties.username, this.callback);
+            prompt.getInput(helpers.properties.username, this.callback);
             helpers.stdin.write('some-user\n');
           },
           "should prompt to stdout and respond with data": function (err, input) {
@@ -86,10 +86,10 @@ vows.describe('reprompt').addBatch({
               that.errmsg = msg;
             })
 
-            reprompt.getInput(helpers.properties.username, this.callback);
+            prompt.getInput(helpers.properties.username, this.callback);
 
-            reprompt.once('invalid', function () {
-              reprompt.once('prompt', function () {
+            prompt.once('invalid', function () {
+              prompt.once('prompt', function () {
                 process.nextTick(function () {
                   helpers.stdin.write('some-user\n');
                 })
@@ -109,14 +109,14 @@ vows.describe('reprompt').addBatch({
     },
     "the get() method": {
       "with a simple string prompt": {
-        "that is not a property in reprompt.properties": {
+        "that is not a property in prompt.properties": {
           topic: function () {
             var that = this;
             helpers.stdout.once('data', function (msg) {
               that.msg = msg;
             })
 
-            reprompt.get('test input', this.callback);
+            prompt.get('test input', this.callback);
             helpers.stdin.write('test value\n');
           },
           "should prompt to stdout and respond with the value": function (err, result) {
@@ -126,7 +126,7 @@ vows.describe('reprompt').addBatch({
             assert.isTrue(this.msg.indexOf('test input') !== -1);
           }
         },
-        "that is a property name in reprompt.properties": {
+        "that is a property name in prompt.properties": {
           "with a default value": {
             topic: function () {
               var that = this;
@@ -135,8 +135,8 @@ vows.describe('reprompt').addBatch({
                 that.msg = msg;
               });
               
-              reprompt.properties['riffwabbles'] = helpers.properties['riffwabbles'];
-              reprompt.get('riffwabbles', this.callback);
+              prompt.properties['riffwabbles'] = helpers.properties['riffwabbles'];
+              prompt.get('riffwabbles', this.callback);
               helpers.stdin.write('\n');
             },
             "should prompt to stdout and respond with the default value": function (err, result) {
@@ -152,7 +152,7 @@ vows.describe('reprompt').addBatch({
     },
     "the addProperties() method": {
       topic: function () {
-        reprompt.addProperties({}, ['foo', 'bar'], this.callback);
+        prompt.addProperties({}, ['foo', 'bar'], this.callback);
         helpers.stdin.write('foo\n');
         helpers.stdin.write('bar\n');
       },

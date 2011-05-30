@@ -1,5 +1,5 @@
 /*
- * helpers.js: Test helpers for the reprompt tests.  
+ * helpers.js: Test helpers for the prompt tests.  
  *
  * (C) 2010, Nodejitsu Inc.
  *
@@ -29,7 +29,7 @@ MockReadWriteStream.prototype.write = function (msg) {
 
 //
 // Create some mock streams for asserting against 
-// in our reprompt tests.
+// in our prompt tests.
 //
 helpers.stdin = new MockReadWriteStream();
 helpers.stdout = new MockReadWriteStream();
