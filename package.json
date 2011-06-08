@@ -1,7 +1,7 @@
 {
   "name": "prompt",
   "description": "A beautiful command-line prompt for node.js",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": "Nodejitsu Inc. <info@nodejitsu.com>",
   "contributors": [
     { "name": "Charlie Robbins", "email": "charlie@nodejitsu.com" },
@@ -14,7 +14,7 @@
   "dependencies": {
     "async": "0.1.x",
     "colors": "0.x.x",
-    "winston": "0.2.x"
+    "winston": "0.3.x"
   },
   "main": "./lib/prompt",
   "scripts": {
