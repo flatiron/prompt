@@ -60,7 +60,7 @@ In addition to prompting the user with simple string prompts, there is a robust 
     {
       name: 'name', 
       validator: /^[a-zA-Z\s\-]+$/,
-      waring: 'Name must be only letters, spaces, or dashes',
+      warning: 'Name must be only letters, spaces, or dashes',
       empty: false
     },
     {
