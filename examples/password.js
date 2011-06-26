@@ -15,8 +15,7 @@ prompt.start();
 //
 // Get two properties from the user: username and password
 //
-process.on('uncaughtException',function(e){console.log(e,e.stack)})
-prompt.get(['username', { name:'password', hidden: true, validator: function(value, next) {
+prompt.get(['username', { name:'password', hidden: true, validator: function (value, next) {
     setTimeout(next,5000)
   }}], function (err, result) {
   //
