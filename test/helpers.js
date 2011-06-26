@@ -54,5 +54,10 @@ helpers.properties = {
     name: 'username',
     validator: /^[\w|\-]+$/,
     warning: 'Username can only be letters, numbers, and dashes'
+  },
+  password: {
+    name: 'password',
+    hidden: true,
+    empty: false
   }
 };
