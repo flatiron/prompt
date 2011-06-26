@@ -59,7 +59,7 @@ vows.describe('prompt').addBatch({
         }
       },
       "with a hidden field that is not supposed to be empty": {
-        "and we provide an input": {
+        "and we provide valid input": {
           topic: function () {
             var that = this;
             helpers.stdout.once('data', function (msg) {
@@ -73,6 +73,29 @@ vows.describe('prompt').addBatch({
           "should prompt to stdout and respond with data": function (err, input) {
             assert.isNull(err);
             assert.equal(input, 'trustno1');
+            assert.isTrue(this.msg.indexOf('password') !== -1);
+          }
+        },
+        "and we don't provide an input": {
+          topic: function () {
+            var that = this;
+            helpers.stdout.once('data', function (msg) {
+              that.msg = msg;
+            });
+
+            helpers.stderr.once('data', function (msg) {
+              that.errmsg = msg;
+            });
+
+            prompt.getInput('password', this.callback);
+
+            helpers.stdin.write('\n');
+          },
+
+          "should prompt with an error": function (err, input) {
+            assert.isNull(err);
+            assert.equal(input, '');
+            assert.isTrue(this.errmsg.indexOf('Invalid input') !== -1);
             assert.isTrue(this.msg.indexOf('password') !== -1);
           }
         }
