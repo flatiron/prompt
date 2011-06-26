@@ -58,6 +58,25 @@ vows.describe('prompt').addBatch({
           assert.isTrue(this.msg.indexOf('test input') !== -1);
         }
       },
+      "with a hidden field that is not supposed to be empty": {
+        "and we provide an input": {
+          topic: function () {
+            var that = this;
+            helpers.stdout.once('data', function (msg) {
+              that.msg = msg;
+            });
+
+            prompt.getInput('password', this.callback);
+            helpers.stdin.write('trustno1\n');
+          },
+
+          "should prompt to stdout and respond with data": function (err, input) {
+            assert.isNull(err);
+            assert.equal(input, 'trustno1');
+            assert.isTrue(this.msg.indexOf('password') !== -1);
+          }
+        }
+      },
       "with a complex property prompt": {
         "and a valid input": {
           topic: function () {
