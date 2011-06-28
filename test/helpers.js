@@ -59,5 +59,9 @@ helpers.properties = {
     name: 'password',
     hidden: true,
     empty: false
+  },
+  badValidator: {
+    name: 'bad-validator',
+    validator: ['cant', 'use', 'array']
   }
 };

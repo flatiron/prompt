@@ -87,13 +87,12 @@ vows.describe('prompt').addBatch({
               that.errmsg = msg;
             });
 
-            prompt.getInput('password', this.callback);
-
+            prompt.getInput(helpers.properties.password, function () {});
+            prompt.once('invalid', this.callback.bind(null, null))
             helpers.stdin.write('\n');
           },
-
-          "should prompt with an error": function (err, input) {
-            assert.isNull(err);
+          "should prompt with an error": function (ign, prop, input) {
+            assert.isObject(prop);
             assert.equal(input, '');
             assert.isTrue(this.errmsg.indexOf('Invalid input') !== -1);
             assert.isTrue(this.msg.indexOf('password') !== -1);
@@ -145,6 +144,14 @@ vows.describe('prompt').addBatch({
             assert.equal(input, 'some-user');
             assert.isTrue(this.errmsg.indexOf('Invalid input') !== -1);
             assert.isTrue(this.msg.indexOf('username') !== -1);
+          }
+        },
+        "with an invalid validator (array)": {
+          topic: function () {
+            prompt.getInput(helpers.properties.badValidator, this.callback);
+          },
+          "should respond with an error": function (err, ign) {
+            assert.isTrue(!!err);
           }
         }
       }

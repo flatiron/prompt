@@ -15,13 +15,16 @@ prompt.start();
 //
 // Get two properties from the user: username and password
 //
-prompt.get(['username', { name:'password', hidden: true, validator: function (value, next) {
-    setTimeout(next,5000)
-  }}], function (err, result) {
+prompt.get([{ 
+    name:'password', 
+    hidden: true, 
+    validator: function (value, next) {
+      setTimeout(next, 200);
+    }
+  }], function (err, result) {
   //
   // Log the results.
   //
   console.log('Command-line input received:');
-  console.log('  username: ' + result.username);
   console.log('  password: ' + result.password);
 });
