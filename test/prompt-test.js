@@ -213,4 +213,35 @@ vows.describe('prompt').addBatch({
       }
     }
   }
+}).addBatch({
+  "When using node-prompt": {
+    "the history() method": {
+      "when used inside of a complex property": {
+        "with correct value(s)": {
+          topic: function () {
+            prompt.get([helpers.properties.animal, helpers.properties.sound], this.callback);
+            helpers.stdin.write('dog\n');
+            helpers.stdin.write('woof\n');
+          },
+          "should respond with the values entered": function (err, result) {
+            assert.isTrue(!err);
+            assert.equal(result.animal, 'dog');
+            assert.equal(result.sound, 'woof');
+          }
+        },
+        "with an incorrect value": {
+          topic: function () {
+            prompt.get([helpers.properties.animal, helpers.properties.sound], function () {});
+            prompt.once('invalid', this.callback.bind(null, null));
+            helpers.stdin.write('dog\n');
+            helpers.stdin.write('meow\n');
+          },
+          "should prompt for the error": function (ign, property, line) {
+            assert.equal(property.name, 'sound');
+            assert.equal(line, 'meow');
+          }
+        }
+      }
+    }
+  }
 }).export(module);

@@ -7,7 +7,8 @@
 
 var events = require('events'),
     stream = require('stream'),
-    util = require('util');
+    util = require('util'),
+    prompt = require('../lib/prompt');
 
 var helpers = exports;
 
@@ -63,5 +64,21 @@ helpers.properties = {
   badValidator: {
     name: 'bad-validator',
     validator: ['cant', 'use', 'array']
+  },
+  animal: {
+    name: 'animal', 
+    description: 'Enter an animal',
+    default: 'dog',
+    validator: /dog|cat/
+  },
+  sound: {
+    name: 'sound', 
+    description: 'What sound does this animal make?',
+    validator: function (value) {
+      var animal = prompt.history(0).value;
+      
+      return animal === 'dog' && value === 'woof'
+        || animal === 'cat' && value === 'meow';
+    }
   }
 };
