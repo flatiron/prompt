@@ -34,7 +34,7 @@ vows.describe('prompt').addBatch({
       "when given backspaces": {
         topic: function () {
           prompt.readLineHidden(this.callback);
-          helpers.stdin.write('no-\x08backspace.\xff');
+          helpers.stdin.write('no-\x08backspace.\x7f');
           helpers.stdin.write('\n');
         },
         "should remove the proper characters": function (err,input) {
