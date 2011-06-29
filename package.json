@@ -14,6 +14,7 @@
   "dependencies": {
     "async": "0.1.x",
     "colors": "0.x.x",
+    "pkginfo": "0.x.x",
     "winston": "0.3.x"
   },
   "main": "./lib/prompt",
