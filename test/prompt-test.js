@@ -1,10 +1,10 @@
 /*
- * prompt-test.js: Tests for node-prompt.  
+ * prompt-test.js: Tests for node-prompt.
  *
  * (C) 2010, Nodejitsu Inc.
  *
  */
- 
+
 var assert = require('assert'),
     vows = require('vows'),
     prompt = require('../lib/prompt'),
@@ -14,10 +14,10 @@ vows.describe('prompt').addBatch({
   "When using prompt": {
     topic: function () {
       prompt.start({
-        stdin: helpers.stdin, 
+        stdin: helpers.stdin,
         stdout: helpers.stdout
       });
-      
+
       return null;
     },
     "the readLine() method": {
@@ -31,6 +31,17 @@ vows.describe('prompt').addBatch({
       }
     },
     "the readLineHidden() method": {
+      "when given backspaces": {
+        topic: function () {
+          prompt.readLineHidden(this.callback);
+          helpers.stdin.write('no-\x08backspace.\xff');
+          helpers.stdin.write('\n');
+        },
+        "should remove the proper characters": function (err,input) {
+          assert.isNull(err);
+          assert.equal(input, 'nobackspace');
+        }
+      },
       topic: function () {
         prompt.readLineHidden(this.callback);
         helpers.stdin.write('testing');
@@ -48,7 +59,7 @@ vows.describe('prompt').addBatch({
           helpers.stdout.once('data', function (msg) {
             that.msg = msg;
           })
-          
+
           prompt.getInput('test input', this.callback);
           helpers.stdin.write('test value\n');
         },
@@ -179,11 +190,11 @@ vows.describe('prompt').addBatch({
           "with a default value": {
             topic: function () {
               var that = this;
-              
+
               helpers.stdout.once('data', function (msg) {
                 that.msg = msg;
               });
-              
+
               prompt.properties['riffwabbles'] = helpers.properties['riffwabbles'];
               prompt.get('riffwabbles', this.callback);
               helpers.stdin.write('\n');
@@ -194,6 +205,32 @@ vows.describe('prompt').addBatch({
               assert.isTrue(this.msg.indexOf('(foobizzles)') !== -1);
               assert.include(result, 'riffwabbles');
               assert.equal(result['riffwabbles'], helpers.properties['riffwabbles'].default);
+            }
+          },
+          "with a sync function validator": {
+            topic: function () {
+              var that = this;
+
+              helpers.stdout.once('data', function (msg) {
+                that.msg = msg;
+              });
+
+              prompt.properties['fnvalidator'] = helpers.properties['fnvalidator'];
+              prompt.get('fnvalidator', this.callback);
+              helpers.stdin.write('fn123\n');
+            }
+          },
+          "with a callback validator": {
+            topic: function () {
+              var that = this;
+
+              helpers.stdout.once('data', function (msg) {
+                that.msg = msg;
+              });
+
+              prompt.properties['cbvalidator'] = helpers.properties['cbvalidator'];
+              prompt.get('cbvalidator', this.callback);
+              helpers.stdin.write('cb123\n');
             }
           }
         }

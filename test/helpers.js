@@ -1,5 +1,5 @@
 /*
- * helpers.js: Test helpers for the prompt tests.  
+ * helpers.js: Test helpers for the prompt tests.
  *
  * (C) 2010, Nodejitsu Inc.
  *
@@ -29,7 +29,7 @@ MockReadWriteStream.prototype.write = function (msg) {
 };
 
 //
-// Create some mock streams for asserting against 
+// Create some mock streams for asserting against
 // in our prompt tests.
 //
 helpers.stdin = new MockReadWriteStream();
@@ -37,7 +37,7 @@ helpers.stdout = new MockReadWriteStream();
 helpers.stderr = new MockReadWriteStream();
 
 //
-// Monkey punch `util.error` to silence console output 
+// Monkey punch `util.error` to silence console output
 // and redirect to helpers.stderr for testing.
 //
 util.error = function () {
@@ -80,5 +80,19 @@ helpers.properties = {
       return animal === 'dog' && value === 'woof'
         || animal === 'cat' && value === 'meow';
     }
+  },
+  fnvalidator: {
+    name: 'fnvalidator',
+    validator: function (line) {
+      return line.slice(0,2) == 'fn';
+    },
+    warning: 'fnvalidator must start with "fn"'
+  },
+  cbvalidator: {
+    name: 'cbvalidator',
+    validator: function (line, next) {
+      next(line.slice(0,2) == 'cb');
+    },
+    warning: 'cbvalidator must start with "cb"'
   }
 };
