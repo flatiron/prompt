@@ -5,7 +5,8 @@
   "author": "Nodejitsu Inc. <info@nodejitsu.com>",
   "contributors": [
     { "name": "Charlie Robbins", "email": "charlie@nodejitsu.com" },
-    { "name": "Joshua Holbrook", "email": "josh.holbrook@gmail.com" }
+    { "name": "Joshua Holbrook", "email": "josh.holbrook@gmail.com" },
+    { "name": "Bradley Meck", "email": "bradley.meck@gmail.com" }
   ],
   "repository": {
     "type": "git",
