@@ -17,7 +17,7 @@ vows.describe('prompt').addBatch({
       //
       // Reset the prompt for interactive testing
       //
-      prompt.started = false
+      prompt.started = false;
       prompt.start();
       winston.info('These node-prompt tests are interactive');
       winston.info('Not following instructions will result in test failure');

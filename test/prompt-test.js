@@ -13,6 +13,10 @@ var assert = require('assert'),
 vows.describe('prompt').addBatch({
   "When using prompt": {
     topic: function () {
+      //
+      // Reset the prompt for mock testing
+      //
+      prompt.started = false;
       prompt.start({
         stdin: helpers.stdin,
         stdout: helpers.stdout
