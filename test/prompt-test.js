@@ -219,9 +219,12 @@ vows.describe('prompt').addBatch({
                 that.msg = msg;
               });
 
-              prompt.properties['fnvalidator'] = helpers.properties['fnvalidator'];
-              prompt.get('fnvalidator', this.callback);
+              prompt.get(helpers.properties.fnvalidator, this.callback);
               helpers.stdin.write('fn123\n');
+            },
+            "should accept a value that is checked": function (err, result) {
+              assert.isNull(err);
+              assert.equal(result['fnvalidator'],'fn123');
             }
           },
           "with a callback validator": {
@@ -232,9 +235,12 @@ vows.describe('prompt').addBatch({
                 that.msg = msg;
               });
 
-              prompt.properties['cbvalidator'] = helpers.properties['cbvalidator'];
-              prompt.get('cbvalidator', this.callback);
+              prompt.get(helpers.properties.cbvalidator, this.callback);
               helpers.stdin.write('cb123\n');
+            },
+            "should not accept a value that is correct": function (err, result) {
+              assert.isNull(err);
+              assert.equal(result['cbvalidator'],'cb123');
             }
           }
         }
