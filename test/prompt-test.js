@@ -73,6 +73,31 @@ vows.describe('prompt').addBatch({
           assert.isTrue(this.msg.indexOf('test input') !== -1);
         }
       },
+      "with any field that is not supposed to be empty": {
+        "and we don't provide any input": {
+          topic: function () {
+            var that = this;
+            helpers.stdout.once('data', function (msg) {
+              that.msg = msg;
+            });
+
+            helpers.stderr.once('data', function (msg) {
+              that.errmsg = msg;
+            });
+
+            prompt.getInput(helpers.properties.notblank, function () {});
+            prompt.once('invalid', this.callback.bind(null, null))
+            helpers.stdin.write('\n');
+          },
+
+          "should prompt with an error": function (ign, prop, input) {
+            assert.isObject(prop);
+            assert.equal(input, '');
+            assert.isTrue(this.errmsg.indexOf('Invalid input') !== -1);
+            assert.isTrue(this.msg.indexOf('notblank') !== -1);
+          }
+        }
+      },
       "with a hidden field that is not supposed to be empty": {
         "and we provide valid input": {
           topic: function () {
