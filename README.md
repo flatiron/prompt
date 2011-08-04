@@ -151,6 +151,44 @@ prompt.addProperties(obj, ['username', 'email'], function (err) {
 });
 ```
 
+## Customizing your prompt
+Aside from changing `property.message`, you can also change `prompt.message`
+and `prompt.delimiter` to change the appearance of your prompt.
+
+The basic structure of a prompt is this:
+
+``` js
+prompt.message + prompt.delimiter + property.message + property.delimiter;
+```
+
+The default `prompt.message` is "prompt," the default `prompt.delimiter` is
+": ", and the default `property.message` is `"[" + property.name + "]"`.
+Changing these allows you to customize the appearance of your prompts! In
+addition, node-prompt supports ansi codes via the
+[colors module](https://github.com/Marak/colors.js for custom colors. For a
+completely psychedelic example:
+
+``` js
+var prompt = require("prompt");
+//
+// The colors module adds color properties to prototype.String
+//
+require("colors");
+
+//
+// Setting these properties customizes the prompt.
+//
+prompt.message = "Question bro!".rainbow;
+prompt.delimiter = "><".green;
+
+prompt.start();
+
+prompt.get([{ name: "name",
+              message: "WHAT is your NAME maan?".magenta }], function (err, result) {
+  console.log(result.name.cyan + "? Oh. That's cool, I guess.".cyan);
+});
+```
+
 ## Running tests
 ```
 vows test/*-test.js --spec
