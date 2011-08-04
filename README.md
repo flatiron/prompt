@@ -165,7 +165,7 @@ The default `prompt.message` is "prompt," the default `prompt.delimiter` is
 ": ", and the default `property.message` is `"[" + property.name + "]"`.
 Changing these allows you to customize the appearance of your prompts! In
 addition, node-prompt supports ansi codes via the
-[colors module](https://github.com/Marak/colors.js for custom colors. For a
+[colors module](https://github.com/Marak/colors.js) for custom colors. For a
 completely psychedelic example:
 
 ``` js
