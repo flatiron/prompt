@@ -166,7 +166,7 @@ The default `prompt.message` is "prompt," the default `prompt.delimiter` is
 Changing these allows you to customize the appearance of your prompts! In
 addition, node-prompt supports ansi codes via the
 [colors module](https://github.com/Marak/colors.js) for custom colors. For a
-completely psychedelic example:
+very colorful example:
 
 ``` js
 var prompt = require("prompt");
@@ -178,14 +178,14 @@ require("colors");
 //
 // Setting these properties customizes the prompt.
 //
-prompt.message = "Question bro!".rainbow;
+prompt.message = "Question!".rainbow;
 prompt.delimiter = "><".green;
 
 prompt.start();
 
 prompt.get([{ name: "name",
-              message: "WHAT is your NAME maan?".magenta }], function (err, result) {
-  console.log(result.name.cyan + "? Oh. That's cool, I guess.".cyan);
+              message: "What is your name?".magenta }], function (err, result) {
+  console.log("You said your name is: ".cyan + result.name.cyan);
 });
 ```
 
