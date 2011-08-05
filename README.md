@@ -158,20 +158,20 @@ and `prompt.delimiter` to change the appearance of your prompt.
 The basic structure of a prompt is this:
 
 ``` js
-prompt.message + prompt.delimiter + property.message + property.delimiter;
+prompt.message + prompt.delimiter + property.message + prompt.delimiter;
 ```
 
 The default `prompt.message` is "prompt," the default `prompt.delimiter` is
 ": ", and the default `property.message` is `property.name`.
 Changing these allows you to customize the appearance of your prompts! In
-addition, node-prompt supports ansi codes via the
+addition, node-prompt supports ANSI color codes via the
 [colors module](https://github.com/Marak/colors.js) for custom colors. For a
 very colorful example:
 
 ``` js
 var prompt = require("prompt");
 //
-// The colors module adds color properties to prototype.String
+// The colors module adds color properties to String.prototype
 //
 require("colors");
 
