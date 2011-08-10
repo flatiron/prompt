@@ -11,7 +11,7 @@ var assert = require('assert'),
     winston = require('winston').cli(),
     helpers = require('./helpers');
 
-vows.describe('prompt').addBatch({
+vows.describe('prompt/interactive').addBatch({
   "When using prompt": {
     topic: function () {
       //
