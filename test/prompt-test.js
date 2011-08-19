@@ -269,7 +269,16 @@ vows.describe('prompt').addBatch({
             }
           }
         }
-      }
+      }/*,
+      "skip prompt with prompt.overide": {
+        topic: function () {
+          prompt.overide = { coconihet: 'whatever' }
+          prompt.get('coconihet', this.callback);    
+        }, 
+        "skips prompt and uses overide": function (err, results) {
+          assert.equal(results.coconihet, 'whatever')
+        }
+      }*/
     },
     "the addProperties() method": {
       topic: function () {
@@ -315,5 +324,31 @@ vows.describe('prompt').addBatch({
         }
       }
     }
+  }
+}).addBatch({
+  "when using node-prompt": {
+    topic: function () {
+      //
+      // Reset the prompt for mock testing
+      //
+      prompt.started = false;
+      prompt.start({
+        stdin: helpers.stdin,
+        stdout: helpers.stdout
+      });
+
+      return null;
+    },
+    "the get() method": {
+      topic: function () {
+        prompt.override = { xyz: 468, abc: 123 }
+        prompt.get(['xyz', 'abc'], this.callback);
+      },
+      "should respond with overrides": function (err, results) {
+        assert.isNull(err);
+        assert.deepEqual(results, { xyz: 468, abc: 123 });
+      }
+    },
+
   }
 }).export(module);
