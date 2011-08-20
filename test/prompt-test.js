@@ -369,10 +369,12 @@ vows.describe('prompt').addBatch({
         topic: function () {
           prompt.override = { UVW: 5423, DEF: 64235 }
           prompt.get([{
-            name:'UVW', 
+            name:'UVW',
+            message: 'a custom message',
             default: 6
             },{
             name:'DEF',
+            message: 'a custom message',
             default: 6
             }], this.callback);
         },
