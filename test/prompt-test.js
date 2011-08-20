@@ -348,7 +348,41 @@ vows.describe('prompt').addBatch({
         assert.isNull(err);
         assert.deepEqual(results, { xyz: 468, abc: 123 });
       }
-    },
+    }
+  }
+}).addBatch({
+  "when using node-prompt": {
+    topic: function () {
+      //
+      // Reset the prompt for mock testing
+      //
+      prompt.started = false;
+      prompt.start({
+        stdin: helpers.stdin,
+        stdout: helpers.stdout
+      });
 
+      return null;
+    },
+    "with fancy properties": {
+      "the get() method": {
+        topic: function () {
+          prompt.override = { UVW: 5423, DEF: 64235 }
+          prompt.get([{
+            name:'UVW', 
+            default: 6
+            },{
+            name:'DEF',
+            default: 6
+            }], this.callback);
+        },
+        "should respond with overrides": function (err, results) {
+          assert.isNull(err);
+          assert.deepEqual(results, { UVW: 5423, DEF: 64235 });
+        }
+      }
+    }
   }
 }).export(module);
+
+
