@@ -123,6 +123,44 @@ Lets examine the anatomy of a prompt property:
   empty: false                        // If false, value entered must be non-empty.
 }
 ```
+### skipping prompts
+
+Sometimes power users may wish to skip promts and specify all data as command line options. 
+if a value is set as a property of `prompt.override` prompt will use that instead of 
+prompting the user.
+
+``` js
+//prompt-everride.js
+
+var prompt = require('prompt'),
+    optimist = require('optimist')
+
+//
+// set the overrides
+//
+prompt.override = optimist.argv
+
+//
+// Start the prompt
+//
+prompt.start();
+
+//
+// Get two properties from the user: username and email
+//
+prompt.get(['username', 'email'], function (err, result) {
+  //
+  // Log the results.
+  //
+  console.log('Command-line input received:');
+  console.log('  username: ' + result.username);
+  console.log('  email: ' + result.email);
+})
+
+//: node prompt-everride.js --username USER --email EMAIL
+
+```
+
 
 ### Adding Properties to an Object 
 A common use-case for prompting users for data from the command-line is to extend or create a configuration object that is passed onto the entry-point method for your CLI tool. `node-prompt` exposes a convenience method for doing just this: 
