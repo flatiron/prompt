@@ -1,7 +1,7 @@
 {
   "name": "prompt",
   "description": "A beautiful command-line prompt for node.js",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "author": "Nodejitsu Inc. <info@nodejitsu.com>",
   "contributors": [
     { "name": "Charlie Robbins", "email": "charlie@nodejitsu.com" },
