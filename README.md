@@ -234,5 +234,5 @@ vows test/*-test.js --spec
 
 #### Author: [Charlie Robbins][1]
 
-[0]: https://github.com/nodejitsu/prompt/tree/master/examples
+[0]: https://github.com/flatiron/node-prompt/tree/master/examples
 [1]: http://nodejitsu.com
