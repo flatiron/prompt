@@ -1,4 +1,4 @@
-# node-prompt
+# node-prompt [![Build Status](https://secure.travis-ci.org/flatiron/node-prompt.png)](http://travis-ci.org/flatiron/node-prompt)
 
 A beautiful command-line prompt for node.js
 
