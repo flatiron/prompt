@@ -1,5 +1,5 @@
 /*
- * prompt-test.js: Tests for node-prompt.  
+ * prompt-test.js: Tests for prompt.  
  *
  * (C) 2010, Nodejitsu Inc.
  *
@@ -19,7 +19,7 @@ vows.describe('prompt/interactive').addBatch({
       //
       prompt.started = false;
       prompt.start();
-      winston.info('These node-prompt tests are interactive');
+      winston.info('These prompt tests are interactive');
       winston.info('Not following instructions will result in test failure');
       return null;
     },

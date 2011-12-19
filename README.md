@@ -1,4 +1,4 @@
-# node-prompt [![Build Status](https://secure.travis-ci.org/flatiron/node-prompt.png)](http://travis-ci.org/flatiron/node-prompt)
+# prompt [![Build Status](https://secure.travis-ci.org/flatiron/prompt.png)](http://travis-ci.org/flatiron/prompt)
 
 A beautiful command-line prompt for node.js
 
@@ -21,10 +21,10 @@ curl http://npmjs.org/install.sh | sh
 ```
 
 ## Usage
-Using node-prompt is relatively straight forward. There are two core methods you should be aware of: `prompt.get()` and `prompt.addProperties()`. There methods take strings representing property names in addition to objects for complex property validation (and more). There are a number of [examples][0] that you should examine for detailed usage.
+Using prompt is relatively straight forward. There are two core methods you should be aware of: `prompt.get()` and `prompt.addProperties()`. There methods take strings representing property names in addition to objects for complex property validation (and more). There are a number of [examples][0] that you should examine for detailed usage.
 
 ### Getting Basic Prompt Information
-Getting started with `node-prompt` is easy. Lets take a look at `examples/simple-prompt.js`:
+Getting started with `prompt` is easy. Lets take a look at `examples/simple-prompt.js`:
 
 ``` js
 var prompt = require('prompt');
@@ -108,7 +108,7 @@ Command-line input received:
 ```
 
 ## Valid Property Settings
-`node-prompt` uses a simple property system for performing a couple of basic validation operations against input received from the command-line. The motivations here were speed and simplicity of implementation to integration of pseudo-standards like JSON-Schema were not feasible. 
+`prompt` uses a simple property system for performing a couple of basic validation operations against input received from the command-line. The motivations here were speed and simplicity of implementation to integration of pseudo-standards like JSON-Schema were not feasible. 
 
 Lets examine the anatomy of a prompt property:
 
@@ -163,7 +163,7 @@ prompt.get(['username', 'email'], function (err, result) {
 
 
 ### Adding Properties to an Object 
-A common use-case for prompting users for data from the command-line is to extend or create a configuration object that is passed onto the entry-point method for your CLI tool. `node-prompt` exposes a convenience method for doing just this: 
+A common use-case for prompting users for data from the command-line is to extend or create a configuration object that is passed onto the entry-point method for your CLI tool. `prompt` exposes a convenience method for doing just this: 
 
 ``` js
 var obj = {
@@ -202,7 +202,7 @@ prompt.message + prompt.delimiter + property.message + prompt.delimiter;
 The default `prompt.message` is "prompt," the default `prompt.delimiter` is
 ": ", and the default `property.message` is `property.name`.
 Changing these allows you to customize the appearance of your prompts! In
-addition, node-prompt supports ANSI color codes via the
+addition, prompt supports ANSI color codes via the
 [colors module](https://github.com/Marak/colors.js) for custom colors. For a
 very colorful example:
 
@@ -234,5 +234,5 @@ vows test/*-test.js --spec
 
 #### Author: [Charlie Robbins][1]
 
-[0]: https://github.com/flatiron/node-prompt/tree/master/examples
+[0]: https://github.com/flatiron/prompt/tree/master/examples
 [1]: http://nodejitsu.com

@@ -1,5 +1,5 @@
 /*
- * history.js: Example of using the node-prompt history capabilities.  
+ * history.js: Example of using the prompt history capabilities.  
  *
  * (C) 2010, Nodejitsu Inc.
  *

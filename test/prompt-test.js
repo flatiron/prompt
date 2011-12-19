@@ -1,5 +1,5 @@
 /*
- * prompt-test.js: Tests for node-prompt.
+ * prompt-test.js: Tests for prompt.
  *
  * (C) 2010, Nodejitsu Inc.
  *
@@ -295,7 +295,7 @@ vows.describe('prompt').addBatch({
     }
   }
 }).addBatch({
-  "When using node-prompt": {
+  "When using prompt": {
     "the history() method": {
       "when used inside of a complex property": {
         "with correct value(s)": {
@@ -326,7 +326,7 @@ vows.describe('prompt').addBatch({
     }
   }
 }).addBatch({
-  "when using node-prompt": {
+  "when using prompt": {
     topic: function () {
       //
       // Reset the prompt for mock testing
@@ -351,7 +351,7 @@ vows.describe('prompt').addBatch({
     }
   }
 }).addBatch({
-  "when using node-prompt": {
+  "when using prompt": {
     topic: function () {
       //
       // Reset the prompt for mock testing

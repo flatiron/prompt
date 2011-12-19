@@ -11,7 +11,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "http://github.com/flatiron/node-prompt.git"
+    "url": "http://github.com/flatiron/prompt.git"
   },
   "dependencies": {
     "async": "0.1.x",

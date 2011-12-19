@@ -1,5 +1,5 @@
 /*
- * add-properties.js: Example of how to add properties to an object using node-prompt.  
+ * add-properties.js: Example of how to add properties to an object using prompt.  
  *
  * (C) 2010, Nodejitsu Inc.
  *

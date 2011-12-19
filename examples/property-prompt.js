@@ -1,5 +1,5 @@
 /*
- * property-prompt.js: Example of using node-prompt with complex properties.  
+ * property-prompt.js: Example of using prompt with complex properties.  
  *
  * (C) 2010, Nodejitsu Inc.
  *
