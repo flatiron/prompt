@@ -16,6 +16,7 @@ vows.describe('prompt').addBatch({
       //
       // Reset the prompt for mock testing
       //
+      process.openStdin();
       prompt.started = false;
       prompt.start({
         stdin: helpers.stdin,
@@ -269,16 +270,16 @@ vows.describe('prompt').addBatch({
             }
           }
         }
-      }/*,
+      },
       "skip prompt with prompt.overide": {
         topic: function () {
-          prompt.overide = { coconihet: 'whatever' }
+          prompt.override = { coconihet: 'whatever' }
           prompt.get('coconihet', this.callback);    
         }, 
         "skips prompt and uses overide": function (err, results) {
           assert.equal(results.coconihet, 'whatever')
         }
-      }*/
+      }
     },
     "the addProperties() method": {
       topic: function () {
