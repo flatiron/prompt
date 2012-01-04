@@ -24,7 +24,8 @@
   },
   "main": "./lib/prompt",
   "scripts": {
-    "test": "vows test/prompt-test.js --spec"
+    "test": "vows test/prompt-test.js --spec",
+    "test-all": "vows --spec"
   },
   "engines": {
     "node": ">= 0.4.0"
