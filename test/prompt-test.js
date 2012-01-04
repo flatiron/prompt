@@ -16,7 +16,6 @@ vows.describe('prompt').addBatch({
       //
       // Reset the prompt for mock testing
       //
-      process.openStdin();
       prompt.started = false;
       prompt.start({
         stdin: helpers.stdin,
