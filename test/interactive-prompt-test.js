@@ -1,10 +1,10 @@
 /*
- * prompt-test.js: Tests for prompt.  
+ * prompt-test.js: Tests for prompt.
  *
  * (C) 2010, Nodejitsu Inc.
  *
  */
- 
+
 var assert = require('assert'),
     vows = require('vows'),
     prompt = require('../lib/prompt'),

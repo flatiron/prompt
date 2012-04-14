@@ -273,8 +273,8 @@ vows.describe('prompt').addBatch({
       "skip prompt with prompt.overide": {
         topic: function () {
           prompt.override = { coconihet: 'whatever' }
-          prompt.get('coconihet', this.callback);    
-        }, 
+          prompt.get('coconihet', this.callback);
+        },
         "skips prompt and uses overide": function (err, results) {
           assert.equal(results.coconihet, 'whatever')
         }

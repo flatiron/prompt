@@ -1,10 +1,10 @@
 /*
- * add-properties.js: Example of how to add properties to an object using prompt.  
+ * add-properties.js: Example of how to add properties to an object using prompt.
  *
  * (C) 2010, Nodejitsu Inc.
  *
  */
- 
+
 var prompt = require('../lib/prompt');
 
 //

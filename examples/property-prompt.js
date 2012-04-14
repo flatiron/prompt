@@ -1,15 +1,15 @@
 /*
- * property-prompt.js: Example of using prompt with complex properties.  
+ * property-prompt.js: Example of using prompt with complex properties.
  *
  * (C) 2010, Nodejitsu Inc.
  *
  */
- 
+
 var prompt = require('../lib/prompt');
 
 var properties = [
   {
-    name: 'name', 
+    name: 'name',
     validator: /^[a-zA-Z\s-]+$/,
     warning: 'Name must be only letters, spaces, or dashes',
     empty: false

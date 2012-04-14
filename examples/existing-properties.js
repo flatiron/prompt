@@ -1,10 +1,10 @@
 /*
- * existing-properties.js: Example of using prompt with predefined properties.  
+ * existing-properties.js: Example of using prompt with predefined properties.
  *
  * (C) 2010, Nodejitsu Inc.
  *
  */
- 
+
 var prompt = require('../lib/prompt');
 
 prompt.properties = {

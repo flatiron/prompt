@@ -15,9 +15,9 @@ prompt.start();
 //
 // Get two properties from the user: username and password
 //
-prompt.get([{ 
-    name:'password', 
-    hidden: true, 
+prompt.get([{
+    name:'password',
+    hidden: true,
     validator: function (value, next) {
       setTimeout(next, 200);
     }

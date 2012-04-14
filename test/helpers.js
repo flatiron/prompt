@@ -70,17 +70,17 @@ helpers.properties = {
     validator: ['cant', 'use', 'array']
   },
   animal: {
-    name: 'animal', 
+    name: 'animal',
     description: 'Enter an animal',
     default: 'dog',
     validator: /dog|cat/
   },
   sound: {
-    name: 'sound', 
+    name: 'sound',
     description: 'What sound does this animal make?',
     validator: function (value) {
       var animal = prompt.history(0).value;
-      
+
       return animal === 'dog' && value === 'woof'
         || animal === 'cat' && value === 'meow';
     }

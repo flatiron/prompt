@@ -1,10 +1,10 @@
 /*
- * history.js: Example of using the prompt history capabilities.  
+ * history.js: Example of using the prompt history capabilities.
  *
  * (C) 2010, Nodejitsu Inc.
  *
  */
- 
+
 var prompt = require('../lib/prompt');
 
 //
@@ -14,17 +14,17 @@ prompt.start();
 
 var properties = [
   {
-    name: 'animal', 
+    name: 'animal',
     description: 'Enter an animal',
     default: 'dog',
     validator: /dog|cat/
   },
   {
-    name: 'sound', 
+    name: 'sound',
     description: 'What sound does this animal make?',
     validator: function (value) {
       var animal = prompt.history(0).value;
-      
+
       return animal === 'dog' && value === 'woof'
         || animal === 'cat' && value === 'meow';
     }
