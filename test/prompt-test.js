@@ -8,7 +8,22 @@
 var assert = require('assert'),
     vows = require('vows'),
     prompt = require('../lib/prompt'),
-    helpers = require('./helpers');
+    helpers = require('./helpers'),
+    schema = helpers.schema;
+
+// A helper to pass fragments of our schema into prompt as full schemas.
+function grab () {
+  var names = [].slice.call(arguments),
+      complete = {
+        schema: {}
+      };
+
+  names.forEach(function (name) {
+    complete.path = [ name ],
+    complete.schema = schema.properties[name];
+  });
+  return complete;
+};
 
 vows.describe('prompt').addBatch({
   "When using prompt": {
@@ -85,7 +100,7 @@ vows.describe('prompt').addBatch({
               that.errmsg = msg;
             });
 
-            prompt.getInput(helpers.properties.notblank, function () {});
+            prompt.getInput(grab('notblank'), function () {});
             prompt.once('invalid', this.callback.bind(null, null))
             helpers.stdin.write('\n');
           },
@@ -127,7 +142,7 @@ vows.describe('prompt').addBatch({
               that.errmsg = msg;
             });
 
-            prompt.getInput(helpers.properties.password, function () {});
+            prompt.getInput(grab('password'), function () {} );
             prompt.once('invalid', this.callback.bind(null, null))
             helpers.stdin.write('\n');
           },
@@ -147,7 +162,7 @@ vows.describe('prompt').addBatch({
               that.msg = msg;
             });
 
-            prompt.getInput(helpers.properties.username, this.callback);
+            prompt.getInput(grab('username'), this.callback);
             helpers.stdin.write('some-user\n');
           },
           "should prompt to stdout and respond with data": function (err, input) {
@@ -167,7 +182,7 @@ vows.describe('prompt').addBatch({
               that.errmsg = msg;
             })
 
-            prompt.getInput(helpers.properties.username, this.callback);
+            prompt.getInput(grab('username'), this.callback);
 
             prompt.once('invalid', function () {
               prompt.once('prompt', function () {
@@ -188,7 +203,7 @@ vows.describe('prompt').addBatch({
         },
         "with an invalid validator (array)": {
           topic: function () {
-            prompt.getInput(helpers.properties.badValidator, this.callback);
+            prompt.getInput(grab('badValidator'), this.callback);
           },
           "should respond with an error": function (err, ign) {
             assert.isTrue(!!err);
@@ -224,7 +239,7 @@ vows.describe('prompt').addBatch({
                 that.msg = msg;
               });
 
-              prompt.properties['riffwabbles'] = helpers.properties['riffwabbles'];
+              prompt.properties.riffwabbles = schema.properties.riffwabbles;
               prompt.get('riffwabbles', this.callback);
               helpers.stdin.write('\n');
             },
@@ -233,7 +248,7 @@ vows.describe('prompt').addBatch({
               assert.isTrue(this.msg.indexOf('riffwabbles') !== -1);
               assert.isTrue(this.msg.indexOf('(foobizzles)') !== -1);
               assert.include(result, 'riffwabbles');
-              assert.equal(result['riffwabbles'], helpers.properties['riffwabbles'].default);
+              assert.equal(result['riffwabbles'], schema.properties['riffwabbles'].default);
             }
           },
           "with a sync function validator": {
@@ -244,7 +259,7 @@ vows.describe('prompt').addBatch({
                 that.msg = msg;
               });
 
-              prompt.get(helpers.properties.fnvalidator, this.callback);
+              prompt.get(grab('fnvalidator'), this.callback);
               helpers.stdin.write('fn123\n');
             },
             "should accept a value that is checked": function (err, result) {
@@ -260,7 +275,7 @@ vows.describe('prompt').addBatch({
                 that.msg = msg;
               });
 
-              prompt.get(helpers.properties.cbvalidator, this.callback);
+              prompt.get(grab('cbvalidator'), this.callback);
               helpers.stdin.write('cb123\n');
             },
             "should not accept a value that is correct": function (err, result) {
@@ -300,7 +315,7 @@ vows.describe('prompt').addBatch({
       "when used inside of a complex property": {
         "with correct value(s)": {
           topic: function () {
-            prompt.get([helpers.properties.animal, helpers.properties.sound], this.callback);
+            prompt.get(grab('animal', 'sound'), this.callback);
             helpers.stdin.write('dog\n');
             helpers.stdin.write('woof\n');
           },
@@ -312,7 +327,7 @@ vows.describe('prompt').addBatch({
         },
         "with an incorrect value": {
           topic: function () {
-            prompt.get([helpers.properties.animal, helpers.properties.sound], function () {});
+            prompt.get(grab('animal', 'sound'), function () {});
             prompt.once('invalid', this.callback.bind(null, null));
             helpers.stdin.write('dog\n');
             helpers.stdin.write('meow\n');
@@ -368,15 +383,18 @@ vows.describe('prompt').addBatch({
       "the get() method": {
         topic: function () {
           prompt.override = { UVW: 5423, DEF: 64235 }
-          prompt.get([{
-            name:'UVW',
-            message: 'a custom message',
-            default: 6
-            },{
-            name:'DEF',
-            message: 'a custom message',
-            default: 6
-            }], this.callback);
+          prompt.get({
+            properties: {
+              'UVW': {
+                description: 'a custom message',
+                default: 6
+              },
+              'DEF': {
+                description: 'a custom message',
+                default: 6
+              }
+            }
+          }, this.callback);
         },
         "should respond with overrides": function (err, results) {
           assert.isNull(err);

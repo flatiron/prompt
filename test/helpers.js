@@ -44,59 +44,57 @@ util.error = function () {
   helpers.stderr.write.apply(helpers.stderr, arguments);
 }
 
-helpers.properties = {
-  riffwabbles: {
-    name: 'riffwabbles',
-    validator: /^[\w|\-]+$/,
-    warning: 'riffwabbles can only be letters, numbers, and dashes',
-    default: 'foobizzles'
-  },
-  username: {
-    name: 'username',
-    validator: /^[\w|\-]+$/,
-    warning: 'Username can only be letters, numbers, and dashes'
-  },
-  notblank: {
-    name: 'notblank',
-    empty: false
-  },
-  password: {
-    name: 'password',
-    hidden: true,
-    empty: false
-  },
-  badValidator: {
-    name: 'bad-validator',
-    validator: ['cant', 'use', 'array']
-  },
-  animal: {
-    name: 'animal',
-    description: 'Enter an animal',
-    default: 'dog',
-    validator: /dog|cat/
-  },
-  sound: {
-    name: 'sound',
-    description: 'What sound does this animal make?',
-    validator: function (value) {
-      var animal = prompt.history(0).value;
+// 1) .properties
+// 2) warning --> message
+// 3) Name --> description || key
+// 4) validator --> test (fxns), pattern (regexp), format (built-in)
+// 5) empty --> required
+helpers.properties = helpers.schema = {
+  properties: {
+    riffwabbles: {
+      pattern: /^[\w|\-]+$/,
+      message: 'riffwabbles can only be letters, numbers, and dashes',
+      default: 'foobizzles'
+    },
+    username: {
+      pattern: /^[\w|\-]+$/,
+      message: 'Username can only be letters, numbers, and dashes'
+    },
+    notblank: {
+      required: true
+    },
+    password: {
+      hidden: true,
+      required: true
+    },
+    badValidator: {
+      pattern: ['cant', 'use', 'array']
+    },
+    animal: {
+      description: 'Enter an animal',
+      default: 'dog',
+      test: /dog|cat/
+    },
+    sound: {
+      description: 'What sound does this animal make?',
+      test: function (value) {
+        var animal = prompt.history(0).value;
 
-      return animal === 'dog' && value === 'woof'
-        || animal === 'cat' && value === 'meow';
+        return animal === 'dog' && value === 'woof'
+          || animal === 'cat' && value === 'meow';
+      }
+    },
+    fnvalidator: {
+      test: function (line) {
+        return line.slice(0,2) == 'fn';
+      },
+      message: 'fnvalidator must start with "fn"'
+    },
+    cbvalidator: {
+      test: function (line, next) {
+        next(line.slice(0,2) == 'cb');
+      },
+      message: 'cbvalidator must start with "cb"'
     }
-  },
-  fnvalidator: {
-    name: 'fnvalidator',
-    validator: function (line) {
-      return line.slice(0,2) == 'fn';
-    },
-    warning: 'fnvalidator must start with "fn"'
-  },
-  cbvalidator: {
-    name: 'cbvalidator',
-    validator: function (line, next) {
-      next(line.slice(0,2) == 'cb');
-    },
-    warning: 'cbvalidator must start with "cb"'
   }
 };
