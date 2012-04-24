@@ -89,12 +89,12 @@ helpers.schema = {
         return line.slice(0,2) == 'fn';
       },
       message: 'fnvalidator must start with "fn"'
-    },
+    }/*,
     cbvalidator: {
       conform: function (line, next) {
         next(line.slice(0,2) == 'cb');
       },
       message: 'cbvalidator must start with "cb"'
-    }
+    }*/
   }
 };
