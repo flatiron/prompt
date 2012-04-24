@@ -80,8 +80,6 @@ helpers.properties = helpers.schema = {
       conform: function (value) {
         var animal = prompt.history(0).value;
 
-        console.log('VALUE: ' + animal);
-
         return animal === 'dog' && value === 'woof'
           || animal === 'cat' && value === 'meow';
       }
