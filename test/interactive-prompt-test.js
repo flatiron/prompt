@@ -27,7 +27,7 @@ vows.describe('prompt/interactive').addBatch({
       "when passed a complex property with `hidden: true`": {
         topic: function () {
           winston.info('When prompted, enter: 12345 [backspace] [backspace] [enter]');
-          prompt.getInput(helpers.properties.password, this.callback);
+          prompt.getInput({ path: ['password'], schema: helpers.schema.properties.password}, this.callback);
         },
         "should respond with `123`": function (err, result) {
           assert.isNull(err);

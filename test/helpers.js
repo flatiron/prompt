@@ -49,7 +49,7 @@ util.error = function () {
 // 3) Name --> description || key
 // 4) validator --> conform (fxns), pattern (regexp), format (built-in)
 // 5) empty --> required
-helpers.properties = helpers.schema = {
+helpers.schema = {
   properties: {
     riffwabbles: {
       pattern: /^[\w|\-]+$/,
