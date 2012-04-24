@@ -127,7 +127,7 @@ Alternatives to `pattern` include `format` and `conform`, as documented in [reva
 
 ### Alternate Validation API:
 
-Prompt, in addition to iterating over JSON-Schema properties, will also happily iterate over an array of validation objects:
+Prompt, in addition to iterating over JSON-Schema properties, will also happily iterate over an array of validation objects given an extra 'name' property:
 
 ```js
 var prompt = require('../lib/prompt');
@@ -259,8 +259,13 @@ prompt.delimiter = "><".green;
 
 prompt.start();
 
-prompt.get([{ name: "name",
-              message: "What is your name?".magenta }], function (err, result) {
+prompt.get({
+  properties: {
+    name: {
+      description: "What is your name?".magenta
+    }
+  }
+}, function (err, result) {
   console.log("You said your name is: ".cyan + result.name.cyan);
 });
 ```
