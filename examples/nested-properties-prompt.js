@@ -26,21 +26,11 @@ var schema = {
   }
 };
 
-//
-// Start the prompt
-//
 prompt.start();
 
-//
-// Get two properties from the user: email, password
-//
 prompt.get(schema, function (err, result) {
-  //
-  // Log the results.
-  //
   console.log('Command-line input received:');
   console.log('  url: ' + result.url);
-  console.log(result);
   console.log('  auth:username: ' + result.auth.username);
   console.log('  auth:password: ' + result.auth.password);
 });
