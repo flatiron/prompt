@@ -1,5 +1,5 @@
 /*
- * helpers.js: Test helpers for the prompt tests.
+ * helpers.js: conform helpers for the prompt conforms.
  *
  * (C) 2010, Nodejitsu Inc.
  *
@@ -12,33 +12,33 @@ var events = require('events'),
 
 var helpers = exports;
 
-var MockReadWriteStream = helpers.MockReadWriteStream = function () {
+var MockReadWriconformream = helpers.MockReadWriconformream = function () {
   //
   // No need to do anything here, it's just a mock.
   //
 };
 
-util.inherits(MockReadWriteStream, events.EventEmitter);
+util.inherits(MockReadWriconformream, events.EventEmitter);
 
 ['resume', 'pause', 'setEncoding', 'flush'].forEach(function (method) {
-  MockReadWriteStream.prototype[method] = function () { /* Mock */ };
+  MockReadWriconformream.prototype[method] = function () { /* Mock */ };
 });
 
-MockReadWriteStream.prototype.write = function (msg) {
+MockReadWriconformream.prototype.write = function (msg) {
   this.emit('data', msg);
 };
 
 //
 // Create some mock streams for asserting against
-// in our prompt tests.
+// in our prompt conforms.
 //
-helpers.stdin = new MockReadWriteStream();
-helpers.stdout = new MockReadWriteStream();
-helpers.stderr = new MockReadWriteStream();
+helpers.stdin = new MockReadWriconformream();
+helpers.stdout = new MockReadWriconformream();
+helpers.stderr = new MockReadWriconformream();
 
 //
 // Monkey punch `util.error` to silence console output
-// and redirect to helpers.stderr for testing.
+// and redirect to helpers.stderr for conforming.
 //
 util.error = function () {
   helpers.stderr.write.apply(helpers.stderr, arguments);
@@ -47,7 +47,7 @@ util.error = function () {
 // 1) .properties
 // 2) warning --> message
 // 3) Name --> description || key
-// 4) validator --> test (fxns), pattern (regexp), format (built-in)
+// 4) validator --> conform (fxns), pattern (regexp), format (built-in)
 // 5) empty --> required
 helpers.properties = helpers.schema = {
   properties: {
@@ -73,25 +73,27 @@ helpers.properties = helpers.schema = {
     animal: {
       description: 'Enter an animal',
       default: 'dog',
-      test: /dog|cat/
+      pattern: /dog|cat/
     },
     sound: {
       description: 'What sound does this animal make?',
-      test: function (value) {
+      conform: function (value) {
         var animal = prompt.history(0).value;
+
+        console.log('VALUE: ' + animal);
 
         return animal === 'dog' && value === 'woof'
           || animal === 'cat' && value === 'meow';
       }
     },
     fnvalidator: {
-      test: function (line) {
+      conform: function (line) {
         return line.slice(0,2) == 'fn';
       },
       message: 'fnvalidator must start with "fn"'
     },
     cbvalidator: {
-      test: function (line, next) {
+      conform: function (line, next) {
         next(line.slice(0,2) == 'cb');
       },
       message: 'cbvalidator must start with "cb"'
