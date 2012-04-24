@@ -36,4 +36,29 @@ vows.describe('prompt/interactive').addBatch({
       }
     }
   }
+}).addBatch({
+  "When using prompt": {
+    topic: function () {
+      //
+      // Reset the prompt for interactive testing
+      //
+      prompt.started = false;
+      prompt.start();
+      winston.info('These prompt tests are interactive');
+      winston.info('Not following instructions will result in test failure');
+      return null;
+    },
+    "the getInput() method": {
+      "when passed a full schema": {
+        topic: function () {
+          winston.info('These questions are generated against the full "helpers" schema.');
+          prompt.get(helpers.schema, this.callback);
+        },
+        "should respond with an object": function (err, result) {
+          assert.isNull(err);
+          console.log(result);
+        }
+      }
+    }
+  }
 }).export(module);
