@@ -62,18 +62,18 @@ Command-line input received:
 In addition to prompting the user with simple string prompts, there is a robust API for getting and validating complex information from a command-line prompt. Here's a quick sample:
 
 ``` js
-var properties = [
-  {
-    name: 'name', 
-    validator: /^[a-zA-Z\s\-]+$/,
-    warning: 'Name must be only letters, spaces, or dashes',
-    empty: false
-  },
-  {
-    name: 'password',
-    hidden: true
+var schema = {
+  properties: {
+    name: {
+      pattern: /^[a-zA-Z\s\-]+$/,
+      message: 'Name must be only letters, spaces, or dashes',
+      required: true
+    },
+    password: {
+      hidden: true
+    }
   }
-];
+};
 
 //
 // Start the prompt
@@ -83,7 +83,7 @@ prompt.start();
 //
 // Get two properties from the user: email, password
 //
-prompt.get(properties, function (err, result) {
+prompt.get(schema, function (err, result) {
   //
   // Log the results.
   //
@@ -108,29 +108,67 @@ Command-line input received:
 ```
 
 ## Valid Property Settings
-`prompt` uses a simple property system for performing a couple of basic validation operations against input received from the command-line. The motivations here were speed and simplicity of implementation to integration of pseudo-standards like JSON-Schema were not feasible. 
+`prompt` understands JSON-schema with a few extra parameters and uses [revalidator](https://github.com/flatiron/revalidator) for validation.
 
-Lets examine the anatomy of a prompt property:
+Here's an overview of the properties that may be used for validation and prompting controls:
 
 ``` js
 {
-  message: 'Enter your password',     // Prompt displayed to the user. If not supplied name will be used.
-  name: 'password'                    // Key in the JSON object returned from `.get()`.
-  validator: /^\w+$/                  // Regular expression that input must be valid against.
-  warning: 'Password must be letters' // Warning message to display if validation fails.
-  hidden: true                        // If true, characters entered will not be output to console.
-  default: 'lamepassword'             // Default value to use if no value is entered.
-  empty: false                        // If false, value entered must be non-empty.
+  description: 'Enter your password',     // Prompt displayed to the user. If not supplied name will be used.
+  pattern: /^\w+$/,                  // Regular expression that input must be valid against.
+  message: 'Password must be letters', // Warning message to display if validation fails.
+  hidden: true,                        // If true, characters entered will not be output to console.
+  default: 'lamepassword',             // Default value to use if no value is entered.
+  required: true                        // If true, value entered must be non-empty.
 }
 ```
-### skipping prompts
+
+Alternatives to `pattern` include `format` and `conform`, as documented in [revalidator](https://github.com/flatiron/revalidator).
+
+### Alternate Validation API:
+
+Prompt, in addition to iterating over JSON-Schema properties, will also happily iterate over an array of validation objects:
+
+```js
+var prompt = require('../lib/prompt');
+
+//
+// Start the prompt
+//
+prompt.start();
+
+//
+// Get two properties from the user: username and password
+//
+prompt.get([{
+    name: 'username',
+    required: true
+  }, {
+    name: 'password',
+    hidden: true,
+    conform: function (value) {
+      return true;
+    }
+  }], function (err, result) {
+  //
+  // Log the results.
+  //
+  console.log('Command-line input received:');
+  console.log('  username: ' + result.username);
+  console.log('  password: ' + result.password);
+});
+```
+
+Note that, while this structure is similar to that used by prompt 0.1.x, that the object properties use the same names as in JSON-Schema and are not backards compatible with prompt 0.1.x.
+
+### Skipping Prompts
 
 Sometimes power users may wish to skip promts and specify all data as command line options. 
 if a value is set as a property of `prompt.override` prompt will use that instead of 
 prompting the user.
 
 ``` js
-//prompt-everride.js
+//prompt-override.js
 
 var prompt = require('prompt'),
     optimist = require('optimist')
@@ -157,7 +195,7 @@ prompt.get(['username', 'email'], function (err, result) {
   console.log('  email: ' + result.email);
 })
 
-//: node prompt-everride.js --username USER --email EMAIL
+//: node prompt-override.js --username USER --email EMAIL
 
 ```
 
