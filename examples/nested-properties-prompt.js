@@ -10,7 +10,8 @@ var prompt = require('../lib/prompt');
 var schema = {
   properties: {
     url: {
-      required: true
+      required: true,
+      format: 'url'
     },
     auth: {
       properties: {
