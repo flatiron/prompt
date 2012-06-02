@@ -385,6 +385,248 @@ vows.describe('prompt').addBatch({
       }
     }
   }
+}).addBatch({
+  "when using prompt": {
+    topic: function () {
+      //
+      // Reset the prompt for mock testing
+      //
+      prompt.started = false;
+      prompt.start({
+        stdin: helpers.stdin,
+        stdout: helpers.stdout
+      });
+
+      return null;
+    },
+    "the confirm() method": {
+      "with a string message" : {
+        "responding with Y" : {
+          topic: function () {
+            prompt.confirm('test', this.callback);
+            helpers.stdin.write('Y\n');
+          },
+          "should respond with true" : function(err, result) {
+            assert.isNull(err);
+            assert.isTrue(result);
+          }
+        },
+        "responding with N" : {
+          topic: function () {
+            prompt.confirm('test', this.callback);
+            helpers.stdin.write('N\n');
+          },
+          "should respond with false" : function(err, result) {
+            assert.isNull(err);
+            assert.isFalse(result);
+          }
+        },
+        "responding with YES" : {
+          topic: function () {
+            prompt.confirm('test', this.callback);
+            helpers.stdin.write('YES\n');
+          },
+          "should respond with true" : function(err, result) {
+            assert.isNull(err);
+            assert.isTrue(result);
+          }
+        },
+        "responding with NO" : {
+          topic: function () {
+            prompt.confirm('test', this.callback);
+            helpers.stdin.write('NO\n');
+          },
+          "should respond with false" : function(err, result) {
+            assert.isNull(err);
+            assert.isFalse(result);
+          }
+        },
+        "responding with T" : {
+          topic: function () {
+            prompt.confirm('test', this.callback);
+            helpers.stdin.write('T\n');
+          },
+          "should respond with true" : function(err, result) {
+            assert.isNull(err);
+            assert.isTrue(result);
+          }
+        },
+        "responding with F" : {
+          topic: function () {
+            prompt.confirm('test', this.callback);
+            helpers.stdin.write('F\n');
+          },
+          "should respond with false" : function(err, result) {
+            assert.isNull(err);
+            assert.isFalse(result);
+          }
+        },
+        "responding with TRUE" : {
+          topic: function () {
+            prompt.confirm('test', this.callback);
+            helpers.stdin.write('TRUE\n');
+          },
+          "should respond with true" : function(err, result) {
+            assert.isNull(err);
+            assert.isTrue(result);
+          }
+        },
+        "responding with FALSE" : {
+          topic: function () {
+            prompt.confirm('test', this.callback);
+            helpers.stdin.write('FALSE\n');
+          },
+          "should respond with false" : function(err, result) {
+            assert.isNull(err);
+            assert.isFalse(result);
+          }
+        }
+      },
+      "with an object" : {
+        "and message set" : {
+          topic: function() {
+            prompt.confirm({message:'a custom message'}, this.callback);
+            helpers.stdin.write('Y\n');
+          },
+          "should respond with true" : function(err, result) {
+            assert.isNull(err);
+            assert.isTrue(result);
+          }
+        },
+        "and they forgot the message" : {
+          topic: function() {
+            prompt.confirm({}, this.callback);
+            helpers.stdin.write('Y\n');
+          },
+          "should respond with true" : function(err, result) {
+            assert.isNull(err);
+            assert.isTrue(result);
+          }
+        },
+        "and custom validators" : {
+          "responding node" : {
+            topic : function() {
+              prompt.confirm({
+                message : 'node or jitsu?',
+                validator : /^(node|jitsu)/i,
+                yes : /^node/i
+              }, this.callback);
+              helpers.stdin.write('node\n');
+            },
+            "should respond with true" : function(err, result) {
+              assert.isNull(err);
+              assert.isTrue(result);
+            }
+          },
+          "responding jitsu" : {
+            topic : function() {
+              prompt.confirm({
+                message : 'node or jitsu?',
+                validator : /^(node|jitsu)/i,
+                yes : /^node/i
+              }, this.callback);
+              helpers.stdin.write('jitsu\n');
+            },
+            "should respond with false" : function(err, result) {
+              assert.isNull(err);
+              assert.isFalse(result);
+            }
+          }
+        }
+      }
+    },
+    "with multiple strings" : {
+      "responding with yesses" : {
+        topic : function() {
+          prompt.confirm(["test", "test2", "test3"], this.callback);
+          helpers.stdin.write('Y\n');
+          helpers.stdin.write('y\n');
+          helpers.stdin.write('YES\n');
+        },
+        "should respond with true" : function(err, result) {
+          assert.isNull(err);
+          assert.isTrue(result);
+        }
+      },
+      "responding with one no" : {
+        topic : function() {
+          prompt.confirm(["test", "test2", "test3"], this.callback);
+          helpers.stdin.write('Y\n');
+          helpers.stdin.write('N\n');
+          helpers.stdin.write('YES\n');
+        },
+        "should respond with false" : function(err, result) {
+          assert.isNull(err);
+          assert.isFalse(result);
+        }
+      },
+      "responding with all noes" : {
+        topic : function() {
+          prompt.confirm(["test", "test2", "test3"], this.callback);
+          helpers.stdin.write('n\n');
+          helpers.stdin.write('NO\n');
+          helpers.stdin.write('N\n');
+        },
+        "should respond with false" : function(err, result) {
+          assert.isNull(err);
+          assert.isFalse(result);
+        }
+      }
+    },
+    "with multiple objects" : {
+      "responding with yesses" : {
+        topic : function() {
+          prompt.confirm(
+            [
+              {message:"test"},
+              {message:"test2"}
+            ],
+            this.callback
+          );
+          helpers.stdin.write('y\n');
+          helpers.stdin.write('y\n');
+        },
+        "should respond with true" : function(err, result) {
+          assert.isNull(err);
+          assert.isTrue(result);
+        }
+      },
+      "responding with noes" : {
+        topic : function() {
+          prompt.confirm(
+            [
+              {message:"test"},
+              {message:"test2"}
+            ],
+            this.callback
+          );
+          helpers.stdin.write('n\n');
+          helpers.stdin.write('n\n');
+        },
+        "should respond with false" : function(err, result) {
+          assert.isNull(err);
+          assert.isFalse(result);
+        }
+      },
+      "responding with yes and no" : {
+        topic : function() {
+          prompt.confirm(
+            [
+              {message:"test"},
+              {message:"test2"}
+            ],
+            this.callback
+          );
+          helpers.stdin.write('n\n');
+          helpers.stdin.write('y\n');
+        },
+        "should respond with false" : function(err, result) {
+          assert.isNull(err);
+          assert.isFalse(result);
+        }
+      }
+    }
+  }
 }).export(module);
 
 
