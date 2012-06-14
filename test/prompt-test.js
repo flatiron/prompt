@@ -501,9 +501,9 @@ vows.describe('prompt').addBatch({
         }
       },
       "with an object" : {
-        "and message set" : {
+        "and description set" : {
           topic: function() {
-            prompt.confirm({message:'a custom message'}, this.callback);
+            prompt.confirm({description:'a custom message'}, this.callback);
             helpers.stdin.write('Y\n');
           },
           "should respond with true" : function(err, result) {
@@ -511,7 +511,7 @@ vows.describe('prompt').addBatch({
             assert.isTrue(result);
           }
         },
-        "and they forgot the message" : {
+        "and they forgot the description" : {
           topic: function() {
             prompt.confirm({}, this.callback);
             helpers.stdin.write('Y\n');

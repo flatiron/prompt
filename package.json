@@ -12,7 +12,7 @@
     "url": "http://github.com/flatiron/prompt.git"
   },
   "dependencies": {
-    "utile": "0.0.x",
+    "utile": "0.1.x",
     "colors": "0.x.x",
     "pkginfo": "0.x.x",
     "winston": "0.5.x",
