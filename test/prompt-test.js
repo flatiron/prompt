@@ -525,9 +525,9 @@ vows.describe('prompt').addBatch({
           "responding node" : {
             topic : function() {
               prompt.confirm({
-                message : 'node or jitsu?',
-                validator : /^(node|jitsu)/i,
-                yes : /^node/i
+                description: 'node or jitsu?',
+                pattern: /^(node|jitsu)/i,
+                yes: /^node/i
               }, this.callback);
               helpers.stdin.write('node\n');
             },
@@ -539,9 +539,9 @@ vows.describe('prompt').addBatch({
           "responding jitsu" : {
             topic : function() {
               prompt.confirm({
-                message : 'node or jitsu?',
-                validator : /^(node|jitsu)/i,
-                yes : /^node/i
+                description: 'node or jitsu?',
+                pattern: /^(node|jitsu)/i,
+                yes: /^node/i
               }, this.callback);
               helpers.stdin.write('jitsu\n');
             },
