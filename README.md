@@ -159,7 +159,9 @@ prompt.get([{
 });
 ```
 
-Note that, while this structure is similar to that used by prompt 0.1.x, that the object properties use the same names as in JSON-Schema and are not backards compatible with prompt 0.1.x.
+### Backward Compatibility
+
+Note that, while this structure is similar to that used by prompt 0.1.x, that the object properties use the same names as in JSON-Schema. prompt 0.2.x is backward compatible with prompt 0.1.x except for asynchronous validation.
 
 ### Skipping Prompts
 
