@@ -51,6 +51,12 @@ util.error = function () {
 // 5) empty --> required
 helpers.schema = {
   properties: {
+    oldschema: {
+      message: 'Enter your username',
+      validator: /^[\w|\-]+$/,
+      warning: 'username can only be letters, numbers, and dashes',
+      empty: false
+    },
     riffwabbles: {
       pattern: /^[\w|\-]+$/,
       message: 'riffwabbles can only be letters, numbers, and dashes',

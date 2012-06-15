@@ -311,6 +311,44 @@ vows.describe('prompt').addBatch({
   }
 }).addBatch({
   "When using prompt": {
+    topic: function () {
+      //
+      // Reset the prompt for mock testing
+      //
+      prompt.started = false;
+      prompt.start({
+        stdin: helpers.stdin,
+        stdout: helpers.stdout
+      });
+
+      return null;
+    },
+    "the get() method": {
+      "with old schema": {
+        topic: function () {
+          var that = this;
+
+          helpers.stdout.once('data', function (msg) {
+            that.msg = msg;
+          });
+
+          prompt.properties.username = schema.properties.oldschema;
+          prompt.get('username', this.callback);
+          helpers.stdin.write('\n');
+          helpers.stdin.write('hell$\n');
+          helpers.stdin.write('hello\n');
+        },
+        "should prompt to stdout and respond with the default value": function (err, result) {
+          assert.isNull(err);
+          assert.isTrue(this.msg.indexOf('username') !== -1);
+          assert.include(result, 'username');
+          assert.equal(result.username, 'hello');
+        }
+      }
+    }
+  }
+}).addBatch({
+  "When using prompt": {
     "the history() method": {
       "when used inside of a complex property": {
         "with correct value(s)": {
@@ -646,5 +684,3 @@ vows.describe('prompt').addBatch({
     }
   }
 }).export(module);
-
-
