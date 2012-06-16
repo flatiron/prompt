@@ -40,7 +40,7 @@ helpers.stderr = new MockReadWriteStream();
 // Monkey punch `util.error` to silence console output
 // and redirect to helpers.stderr for testing.
 //
-util.error = function () {
+console.error = function () {
   helpers.stderr.write.apply(helpers.stderr, arguments);
 }
 

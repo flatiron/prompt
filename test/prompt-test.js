@@ -349,6 +349,18 @@ vows.describe('prompt').addBatch({
   }
 }).addBatch({
   "When using prompt": {
+    topic: function () {
+      //
+      // Reset the prompt for mock testing
+      //
+      prompt.started = false;
+      prompt.start({
+        stdin: helpers.stdin,
+        stdout: helpers.stdout
+      });
+
+      return null;
+    },
     "the history() method": {
       "when used inside of a complex property": {
         "with correct value(s)": {
