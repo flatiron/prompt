@@ -13,7 +13,6 @@
   },
   "dependencies": {
     "utile": "0.1.x",
-    "colors": "0.x.x",
     "pkginfo": "0.x.x",
     "winston": "0.6.x",
     "revalidator": "0.1.x"
