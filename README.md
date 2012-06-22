@@ -248,10 +248,6 @@ very colorful example:
 
 ``` js
 var prompt = require("prompt");
-//
-// The colors module adds color properties to String.prototype
-//
-require("colors");
 
 //
 // Setting these properties customizes the prompt.
@@ -270,6 +266,14 @@ prompt.get({
 }, function (err, result) {
   console.log("You said your name is: ".cyan + result.name.cyan);
 });
+```
+
+If you don't want colors, you can set
+
+```js
+var prompt = require('prompt');
+
+prompt.colors = false;
 ```
 
 ## Running tests
