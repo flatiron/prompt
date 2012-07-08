@@ -12,11 +12,11 @@
     "url": "http://github.com/flatiron/prompt.git"
   },
   "dependencies": {
-    "utile": "0.1.x",
-    "colors": "0.x.x",
     "pkginfo": "0.x.x",
-    "winston": "0.6.x",
-    "revalidator": "0.1.x"
+    "read": "https://github.com/indexzero/read/tarball/refactor-optional-streams",
+    "revalidator": "0.1.x",
+    "utile": "0.1.x",
+    "winston": "0.6.x"
   },
   "devDependencies": {
     "vows": "0.6.x"
@@ -27,7 +27,7 @@
     "test-all": "vows --spec"
   },
   "engines": {
-    "node": ">= 0.4.0"
+    "node": ">= 0.6.6"
   }
 }
 

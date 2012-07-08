@@ -26,6 +26,14 @@ util.inherits(MockReadWriteStream, events.EventEmitter);
 
 MockReadWriteStream.prototype.write = function (msg) {
   this.emit('data', msg);
+  return true;
+};
+
+MockReadWriteStream.prototype.writeNextTick = function (msg) {
+  var self = this
+  process.nextTick(function () {
+    self.write(msg);
+  });
 };
 
 //
@@ -35,6 +43,24 @@ MockReadWriteStream.prototype.write = function (msg) {
 helpers.stdin = new MockReadWriteStream();
 helpers.stdout = new MockReadWriteStream();
 helpers.stderr = new MockReadWriteStream();
+
+//
+// Because `read` uses a `process.nextTick` for reading from
+// stdin, it is necessary to write sequences of input with extra
+// `process.nextTick` calls
+//
+helpers.stdin.writeSequence = function (lines) {
+  if (!lines || !lines.length) {
+    return;
+  }
+
+  helpers.stdin.writeNextTick(lines.shift());
+  prompt.once('prompt', function () {
+    process.nextTick(function () {
+      helpers.stdin.writeSequence(lines);
+    });
+  });
+}
 
 //
 // Monkey punch `util.error` to silence console output
@@ -70,6 +96,7 @@ helpers.schema = {
       required: true
     },
     password: {
+      default: 'Enter 12345 [backspace] [backspace]!',
       hidden: true,
       required: true
     },

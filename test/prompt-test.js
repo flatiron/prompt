@@ -14,12 +14,10 @@ var assert = require('assert'),
 // A helper to pass fragments of our schema into prompt as full schemas.
 function grab () {
   var names = [].slice.call(arguments),
-      complete = {
-        schema: {}
-      };
+      complete = { schema: {} };
 
   names.forEach(function (name) {
-    complete.path = [ name ],
+    complete.path = [name],
     complete.schema = schema.properties[name];
   });
   return complete;
@@ -39,38 +37,6 @@ vows.describe('prompt').addBatch({
 
       return null;
     },
-    "the readLine() method": {
-      topic: function () {
-        prompt.readLine(this.callback);
-        helpers.stdin.write('testing\n');
-      },
-      "should respond with data from the stdin stream": function (err, input) {
-        assert.isNull(err);
-        assert.equal(input, 'testing');
-      }
-    },
-    "the readLineHidden() method": {
-      "when given backspaces": {
-        topic: function () {
-          prompt.readLineHidden(this.callback);
-          helpers.stdin.write('no-\x08backspace.\x7f');
-          helpers.stdin.write('\n');
-        },
-        "should remove the proper characters": function (err,input) {
-          assert.isNull(err);
-          assert.equal(input, 'nobackspace');
-        }
-      },
-      topic: function () {
-        prompt.readLineHidden(this.callback);
-        helpers.stdin.write('testing');
-        helpers.stdin.write('\r\n');
-      },
-      "should respond with data from the stdin stream": function (err, input) {
-        assert.isNull(err);
-        assert.equal(input, 'testing');
-      }
-    },
     "the getInput() method": {
       "with a simple string prompt": {
         topic: function () {
@@ -80,7 +46,7 @@ vows.describe('prompt').addBatch({
           })
 
           prompt.getInput('test input', this.callback);
-          helpers.stdin.write('test value\n');
+          helpers.stdin.writeNextTick('test value\n');
         },
         "should prompt to stdout and respond with data": function (err, input) {
           assert.isNull(err);
@@ -102,10 +68,9 @@ vows.describe('prompt').addBatch({
 
             prompt.getInput(grab('notblank'), function () {});
             prompt.once('invalid', this.callback.bind(null, null))
-            helpers.stdin.write('\n');
+            helpers.stdin.writeNextTick('\n');
           },
-
-          "should prompt with an error": function (ign, prop, input) {
+          "should prompt with an error": function (_, prop, input) {
             assert.isObject(prop);
             assert.equal(input, '');
             assert.isTrue(this.errmsg.indexOf('Invalid input') !== -1);
@@ -122,7 +87,7 @@ vows.describe('prompt').addBatch({
             });
 
             prompt.getInput('password', this.callback);
-            helpers.stdin.write('trustno1\n');
+            helpers.stdin.writeNextTick('trustno1\n');
           },
 
           "should prompt to stdout and respond with data": function (err, input) {
@@ -144,7 +109,7 @@ vows.describe('prompt').addBatch({
 
             prompt.getInput(grab('password'), function () {} );
             prompt.once('invalid', this.callback.bind(null, null))
-            helpers.stdin.write('\n');
+            helpers.stdin.writeNextTick('\n');
           },
           "should prompt with an error": function (ign, prop, input) {
             assert.isObject(prop);
@@ -163,7 +128,7 @@ vows.describe('prompt').addBatch({
             });
 
             prompt.getInput(grab('username'), this.callback);
-            helpers.stdin.write('some-user\n');
+            helpers.stdin.writeNextTick('some-user\n');
           },
           "should prompt to stdout and respond with data": function (err, input) {
             assert.isNull(err);
@@ -187,12 +152,12 @@ vows.describe('prompt').addBatch({
             prompt.once('invalid', function () {
               prompt.once('prompt', function () {
                 process.nextTick(function () {
-                  helpers.stdin.write('some-user\n');
+                  helpers.stdin.writeNextTick('some-user\n');
                 })
               })
             });
 
-            helpers.stdin.write('some -user\n');
+            helpers.stdin.writeNextTick('some -user\n');
           },
           "should prompt with an error before completing the operation": function (err, input) {
             assert.isNull(err);
@@ -210,6 +175,21 @@ vows.describe('prompt').addBatch({
           }
         }
       }
+    }
+  }
+}).addBatch({
+  "When using prompt": {
+    topic: function () {
+      //
+      // Reset the prompt for mock testing
+      //
+      prompt.started = false;
+      prompt.start({
+        stdin: helpers.stdin,
+        stdout: helpers.stdout
+      });
+
+      return null;
     },
     "the get() method": {
       "with a simple string prompt": {
@@ -221,7 +201,7 @@ vows.describe('prompt').addBatch({
             })
 
             prompt.get('test input', this.callback);
-            helpers.stdin.write('test value\n');
+            helpers.stdin.writeNextTick('test value\n');
           },
           "should prompt to stdout and respond with the value": function (err, result) {
             assert.isNull(err);
@@ -241,7 +221,7 @@ vows.describe('prompt').addBatch({
 
               prompt.properties.riffwabbles = schema.properties.riffwabbles;
               prompt.get('riffwabbles', this.callback);
-              helpers.stdin.write('\n');
+              helpers.stdin.writeNextTick('\n');
             },
             "should prompt to stdout and respond with the default value": function (err, result) {
               assert.isNull(err);
@@ -260,29 +240,32 @@ vows.describe('prompt').addBatch({
               });
 
               prompt.get(grab('fnvalidator'), this.callback);
-              helpers.stdin.write('fn123\n');
+              helpers.stdin.writeNextTick('fn123\n');
             },
             "should accept a value that is checked": function (err, result) {
               assert.isNull(err);
               assert.equal(result['fnvalidator'],'fn123');
             }
-          }/*, // Does not work with revalidator
-          "with a callback validator": {
-            topic: function () {
-              var that = this;
-
-              helpers.stdout.once('data', function (msg) {
-                that.msg = msg;
-              });
-
-              prompt.get(grab('cbvalidator'), this.callback);
-              helpers.stdin.write('cb123\n');
-            },
-            "should not accept a value that is correct": function (err, result) {
-              assert.isNull(err);
-              assert.equal(result['cbvalidator'],'cb123');
-            }
-          }*/
+          }
+          //
+          // Remark Does not work with revalidator
+          //
+          // "with a callback validator": {
+          //   topic: function () {
+          //     var that = this;
+          //
+          //     helpers.stdout.once('data', function (msg) {
+          //       that.msg = msg;
+          //     });
+          //
+          //     prompt.get(grab('cbvalidator'), this.callback);
+          //     helpers.stdin.writeNextTick('cb123\n');
+          //   },
+          //   "should not accept a value that is correct": function (err, result) {
+          //     assert.isNull(err);
+          //     assert.equal(result['cbvalidator'],'cb123');
+          //   }
+          // }
         }
       },
       "skip prompt with prompt.overide": {
@@ -294,12 +277,26 @@ vows.describe('prompt').addBatch({
           assert.equal(results.coconihet, 'whatever')
         }
       }
+    }
+  }
+}).addBatch({
+  "When using prompt": {
+    topic: function () {
+      //
+      // Reset the prompt for mock testing
+      //
+      prompt.started = false;
+      prompt.start({
+        stdin: helpers.stdin,
+        stdout: helpers.stdout
+      });
+
+      return null;
     },
     "the addProperties() method": {
       topic: function () {
         prompt.addProperties({}, ['foo', 'bar'], this.callback);
-        helpers.stdin.write('foo\n');
-        helpers.stdin.write('bar\n');
+        helpers.stdin.writeSequence(['foo\n', 'bar\n']);
       },
       "should add the properties to the object": function (err, obj) {
         assert.isNull(err);
@@ -334,9 +331,8 @@ vows.describe('prompt').addBatch({
 
           prompt.properties.username = schema.properties.oldschema;
           prompt.get('username', this.callback);
-          helpers.stdin.write('\n');
-          helpers.stdin.write('hell$\n');
-          helpers.stdin.write('hello\n');
+
+          helpers.stdin.writeSequence(['\n', 'hell$\n', 'hello\n']);
         },
         "should prompt to stdout and respond with the default value": function (err, result) {
           assert.isNull(err);
@@ -365,9 +361,8 @@ vows.describe('prompt').addBatch({
       "when used inside of a complex property": {
         "with correct value(s)": {
           topic: function () {
-            prompt.get([ grab('animal'), grab('sound')], this.callback);
-            helpers.stdin.write('dog\n');
-            helpers.stdin.write('woof\n');
+            prompt.get([grab('animal'), grab('sound')], this.callback);
+            helpers.stdin.writeSequence(['dog\n', 'woof\n']);
           },
           "should respond with the values entered": function (err, result) {
             assert.isTrue(!err);
@@ -377,10 +372,9 @@ vows.describe('prompt').addBatch({
         },
         "with an incorrect value": {
           topic: function () {
-            prompt.get([ grab('animal'), grab('sound') ], function () {});
+            prompt.get([grab('animal'), grab('sound')], function () {});
             prompt.once('invalid', this.callback.bind(null, null));
-            helpers.stdin.write('dog\n');
-            helpers.stdin.write('meow\n');
+            helpers.stdin.writeSequence(['dog\n', 'meow\n']);
           },
           "should prompt for the error": function (ign, property, line) {
             assert.equal(property.path.join(''), 'sound');
@@ -472,7 +466,7 @@ vows.describe('prompt').addBatch({
         "responding with Y" : {
           topic: function () {
             prompt.confirm('test', this.callback);
-            helpers.stdin.write('Y\n');
+            helpers.stdin.writeNextTick('Y\n');
           },
           "should respond with true" : function(err, result) {
             assert.isNull(err);
@@ -482,7 +476,7 @@ vows.describe('prompt').addBatch({
         "responding with N" : {
           topic: function () {
             prompt.confirm('test', this.callback);
-            helpers.stdin.write('N\n');
+            helpers.stdin.writeNextTick('N\n');
           },
           "should respond with false" : function(err, result) {
             assert.isNull(err);
@@ -492,7 +486,7 @@ vows.describe('prompt').addBatch({
         "responding with YES" : {
           topic: function () {
             prompt.confirm('test', this.callback);
-            helpers.stdin.write('YES\n');
+            helpers.stdin.writeNextTick('YES\n');
           },
           "should respond with true" : function(err, result) {
             assert.isNull(err);
@@ -502,7 +496,7 @@ vows.describe('prompt').addBatch({
         "responding with NO" : {
           topic: function () {
             prompt.confirm('test', this.callback);
-            helpers.stdin.write('NO\n');
+            helpers.stdin.writeNextTick('NO\n');
           },
           "should respond with false" : function(err, result) {
             assert.isNull(err);
@@ -512,7 +506,7 @@ vows.describe('prompt').addBatch({
         "responding with T" : {
           topic: function () {
             prompt.confirm('test', this.callback);
-            helpers.stdin.write('T\n');
+            helpers.stdin.writeNextTick('T\n');
           },
           "should respond with true" : function(err, result) {
             assert.isNull(err);
@@ -522,7 +516,7 @@ vows.describe('prompt').addBatch({
         "responding with F" : {
           topic: function () {
             prompt.confirm('test', this.callback);
-            helpers.stdin.write('F\n');
+            helpers.stdin.writeNextTick('F\n');
           },
           "should respond with false" : function(err, result) {
             assert.isNull(err);
@@ -532,7 +526,7 @@ vows.describe('prompt').addBatch({
         "responding with TRUE" : {
           topic: function () {
             prompt.confirm('test', this.callback);
-            helpers.stdin.write('TRUE\n');
+            helpers.stdin.writeNextTick('TRUE\n');
           },
           "should respond with true" : function(err, result) {
             assert.isNull(err);
@@ -542,7 +536,7 @@ vows.describe('prompt').addBatch({
         "responding with FALSE" : {
           topic: function () {
             prompt.confirm('test', this.callback);
-            helpers.stdin.write('FALSE\n');
+            helpers.stdin.writeNextTick('FALSE\n');
           },
           "should respond with false" : function(err, result) {
             assert.isNull(err);
@@ -554,7 +548,7 @@ vows.describe('prompt').addBatch({
         "and description set" : {
           topic: function() {
             prompt.confirm({description:'a custom message'}, this.callback);
-            helpers.stdin.write('Y\n');
+            helpers.stdin.writeNextTick('Y\n');
           },
           "should respond with true" : function(err, result) {
             assert.isNull(err);
@@ -564,7 +558,7 @@ vows.describe('prompt').addBatch({
         "and they forgot the description" : {
           topic: function() {
             prompt.confirm({}, this.callback);
-            helpers.stdin.write('Y\n');
+            helpers.stdin.writeNextTick('Y\n');
           },
           "should respond with true" : function(err, result) {
             assert.isNull(err);
@@ -573,13 +567,13 @@ vows.describe('prompt').addBatch({
         },
         "and custom validators" : {
           "responding node" : {
-            topic : function() {
+            topic: function() {
               prompt.confirm({
                 description: 'node or jitsu?',
                 pattern: /^(node|jitsu)/i,
                 yes: /^node/i
               }, this.callback);
-              helpers.stdin.write('node\n');
+              helpers.stdin.writeNextTick('node\n');
             },
             "should respond with true" : function(err, result) {
               assert.isNull(err);
@@ -587,13 +581,13 @@ vows.describe('prompt').addBatch({
             }
           },
           "responding jitsu" : {
-            topic : function() {
+            topic: function() {
               prompt.confirm({
                 description: 'node or jitsu?',
                 pattern: /^(node|jitsu)/i,
                 yes: /^node/i
               }, this.callback);
-              helpers.stdin.write('jitsu\n');
+              helpers.stdin.writeNextTick('jitsu\n');
             },
             "should respond with false" : function(err, result) {
               assert.isNull(err);
@@ -605,11 +599,9 @@ vows.describe('prompt').addBatch({
     },
     "with multiple strings" : {
       "responding with yesses" : {
-        topic : function() {
+        topic: function() {
           prompt.confirm(["test", "test2", "test3"], this.callback);
-          helpers.stdin.write('Y\n');
-          helpers.stdin.write('y\n');
-          helpers.stdin.write('YES\n');
+          helpers.stdin.writeSequence(['Y\n', 'y\n', 'YES\n']);
         },
         "should respond with true" : function(err, result) {
           assert.isNull(err);
@@ -617,11 +609,9 @@ vows.describe('prompt').addBatch({
         }
       },
       "responding with one no" : {
-        topic : function() {
+        topic: function() {
           prompt.confirm(["test", "test2", "test3"], this.callback);
-          helpers.stdin.write('Y\n');
-          helpers.stdin.write('N\n');
-          helpers.stdin.write('YES\n');
+          helpers.stdin.writeSequence(['Y\n', 'N\n', 'YES\n']);
         },
         "should respond with false" : function(err, result) {
           assert.isNull(err);
@@ -629,11 +619,9 @@ vows.describe('prompt').addBatch({
         }
       },
       "responding with all noes" : {
-        topic : function() {
+        topic: function() {
           prompt.confirm(["test", "test2", "test3"], this.callback);
-          helpers.stdin.write('n\n');
-          helpers.stdin.write('NO\n');
-          helpers.stdin.write('N\n');
+          helpers.stdin.writeSequence(['n\n', 'NO\n', 'N\n']);
         },
         "should respond with false" : function(err, result) {
           assert.isNull(err);
@@ -643,16 +631,12 @@ vows.describe('prompt').addBatch({
     },
     "with multiple objects" : {
       "responding with yesses" : {
-        topic : function() {
-          prompt.confirm(
-            [
-              {message:"test"},
-              {message:"test2"}
-            ],
-            this.callback
-          );
-          helpers.stdin.write('y\n');
-          helpers.stdin.write('y\n');
+        topic: function() {
+          prompt.confirm([
+            { message: "test" },
+            { message: "test2" }
+          ], this.callback);
+          helpers.stdin.writeSequence(['y\n', 'y\n']);
         },
         "should respond with true" : function(err, result) {
           assert.isNull(err);
@@ -660,16 +644,12 @@ vows.describe('prompt').addBatch({
         }
       },
       "responding with noes" : {
-        topic : function() {
-          prompt.confirm(
-            [
-              {message:"test"},
-              {message:"test2"}
-            ],
-            this.callback
-          );
-          helpers.stdin.write('n\n');
-          helpers.stdin.write('n\n');
+        topic: function() {
+          prompt.confirm([
+            { message: "test" },
+            { message: "test2" }
+          ], this.callback);
+          helpers.stdin.writeSequence(['n\n', 'n\n']);
         },
         "should respond with false" : function(err, result) {
           assert.isNull(err);
@@ -677,16 +657,12 @@ vows.describe('prompt').addBatch({
         }
       },
       "responding with yes and no" : {
-        topic : function() {
-          prompt.confirm(
-            [
-              {message:"test"},
-              {message:"test2"}
-            ],
-            this.callback
-          );
-          helpers.stdin.write('n\n');
-          helpers.stdin.write('y\n');
+        topic: function() {
+          prompt.confirm([
+            { message: "test" },
+            { message: "test2" }
+          ], this.callback);
+          helpers.stdin.writeSequence(['n\n', 'y\n']);
         },
         "should respond with false" : function(err, result) {
           assert.isNull(err);
