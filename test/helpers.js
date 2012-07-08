@@ -53,7 +53,7 @@ helpers.stdin.writeSequence = function (lines) {
   if (!lines || !lines.length) {
     return;
   }
-  
+
   helpers.stdin.writeNextTick(lines.shift());
   prompt.once('prompt', function () {
     process.nextTick(function () {

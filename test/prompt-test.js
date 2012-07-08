@@ -44,7 +44,7 @@ vows.describe('prompt').addBatch({
           helpers.stdout.once('data', function (msg) {
             that.msg = msg;
           })
-    
+
           prompt.getInput('test input', this.callback);
           helpers.stdin.writeNextTick('test value\n');
         },
@@ -61,11 +61,11 @@ vows.describe('prompt').addBatch({
             helpers.stdout.once('data', function (msg) {
               that.msg = msg;
             });
-      
+
             helpers.stderr.once('data', function (msg) {
               that.errmsg = msg;
             });
-      
+
             prompt.getInput(grab('notblank'), function () {});
             prompt.once('invalid', this.callback.bind(null, null))
             helpers.stdin.writeNextTick('\n');
@@ -85,11 +85,11 @@ vows.describe('prompt').addBatch({
             helpers.stdout.once('data', function (msg) {
               that.msg = msg;
             });
-      
+
             prompt.getInput('password', this.callback);
             helpers.stdin.writeNextTick('trustno1\n');
           },
-      
+
           "should prompt to stdout and respond with data": function (err, input) {
             assert.isNull(err);
             assert.equal(input, 'trustno1');
@@ -102,11 +102,11 @@ vows.describe('prompt').addBatch({
             helpers.stdout.once('data', function (msg) {
               that.msg = msg;
             });
-      
+
             helpers.stderr.once('data', function (msg) {
               that.errmsg = msg;
             });
-      
+
             prompt.getInput(grab('password'), function () {} );
             prompt.once('invalid', this.callback.bind(null, null))
             helpers.stdin.writeNextTick('\n');
@@ -126,7 +126,7 @@ vows.describe('prompt').addBatch({
             helpers.stdout.once('data', function (msg) {
               that.msg = msg;
             });
-      
+
             prompt.getInput(grab('username'), this.callback);
             helpers.stdin.writeNextTick('some-user\n');
           },
@@ -142,13 +142,13 @@ vows.describe('prompt').addBatch({
             helpers.stdout.once('data', function (msg) {
               that.msg = msg;
             });
-      
+
             helpers.stderr.once('data', function (msg) {
               that.errmsg = msg;
             })
-      
+
             prompt.getInput(grab('username'), this.callback);
-      
+
             prompt.once('invalid', function () {
               prompt.once('prompt', function () {
                 process.nextTick(function () {
@@ -156,7 +156,7 @@ vows.describe('prompt').addBatch({
                 })
               })
             });
-      
+
             helpers.stdin.writeNextTick('some -user\n');
           },
           "should prompt with an error before completing the operation": function (err, input) {
@@ -199,7 +199,7 @@ vows.describe('prompt').addBatch({
             helpers.stdout.once('data', function (msg) {
               that.msg = msg;
             })
-    
+
             prompt.get('test input', this.callback);
             helpers.stdin.writeNextTick('test value\n');
           },
@@ -214,11 +214,11 @@ vows.describe('prompt').addBatch({
           "with a default value": {
             topic: function () {
               var that = this;
-    
+
               helpers.stdout.once('data', function (msg) {
                 that.msg = msg;
               });
-    
+
               prompt.properties.riffwabbles = schema.properties.riffwabbles;
               prompt.get('riffwabbles', this.callback);
               helpers.stdin.writeNextTick('\n');
@@ -234,11 +234,11 @@ vows.describe('prompt').addBatch({
           "with a sync function validator": {
             topic: function () {
               var that = this;
-    
+
               helpers.stdout.once('data', function (msg) {
                 that.msg = msg;
               });
-    
+
               prompt.get(grab('fnvalidator'), this.callback);
               helpers.stdin.writeNextTick('fn123\n');
             },
@@ -246,18 +246,18 @@ vows.describe('prompt').addBatch({
               assert.isNull(err);
               assert.equal(result['fnvalidator'],'fn123');
             }
-          } 
+          }
           //
           // Remark Does not work with revalidator
           //
           // "with a callback validator": {
           //   topic: function () {
           //     var that = this;
-          // 
+          //
           //     helpers.stdout.once('data', function (msg) {
           //       that.msg = msg;
           //     });
-          // 
+          //
           //     prompt.get(grab('cbvalidator'), this.callback);
           //     helpers.stdin.writeNextTick('cb123\n');
           //   },
@@ -331,7 +331,7 @@ vows.describe('prompt').addBatch({
 
           prompt.properties.username = schema.properties.oldschema;
           prompt.get('username', this.callback);
-          
+
           helpers.stdin.writeSequence(['\n', 'hell$\n', 'hello\n']);
         },
         "should prompt to stdout and respond with the default value": function (err, result) {
