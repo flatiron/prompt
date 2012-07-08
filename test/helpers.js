@@ -96,6 +96,7 @@ helpers.schema = {
       required: true
     },
     password: {
+      default: 'Enter 12345 [backspace] [backspace]!',
       hidden: true,
       required: true
     },
