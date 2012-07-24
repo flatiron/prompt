@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "pkginfo": "0.x.x",
-    "read": "https://github.com/indexzero/read/tarball/refactor-optional-streams",
+    "read": "0.1.x",
     "revalidator": "0.1.x",
     "utile": "0.1.x",
     "winston": "0.6.x"
