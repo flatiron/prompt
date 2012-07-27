@@ -168,7 +168,16 @@ vows.describe('prompt').addBatch({
         },
         "with an invalid validator (array)": {
           topic: function () {
-            prompt.getInput(grab('badValidator'), this.callback);
+            var that = this,
+                called;
+
+            prompt.getInput(grab('badValidator'), function (err) {
+              if (!called) {
+                called = true;
+                that.callback(err);
+              }
+            });
+            helpers.stdin.writeNextTick('some-user\n');
           },
           "should respond with an error": function (err, ign) {
             assert.isTrue(!!err);
@@ -231,7 +240,7 @@ vows.describe('prompt').addBatch({
               assert.equal(result['riffwabbles'], schema.properties['riffwabbles'].default);
             }
           },
-          "with a sync function validator": {
+          "with a sync function validator (.validator)": {
             topic: function () {
               var that = this;
 
@@ -239,12 +248,28 @@ vows.describe('prompt').addBatch({
                 that.msg = msg;
               });
 
-              prompt.get(grab('fnvalidator'), this.callback);
+              prompt.get(helpers.schema.properties.fnvalidator, this.callback);
               helpers.stdin.writeNextTick('fn123\n');
             },
             "should accept a value that is checked": function (err, result) {
               assert.isNull(err);
               assert.equal(result['fnvalidator'],'fn123');
+            }
+          },
+          "with a sync function validator (.conform)": {
+            topic: function () {
+              var that = this;
+
+              helpers.stdout.once('data', function (msg) {
+                that.msg = msg;
+              });
+
+              prompt.get(grab('fnconform'), this.callback);
+              helpers.stdin.writeNextTick('fn123\n');
+            },
+            "should accept a value that is checked": function (err, result) {
+              assert.isNull(err);
+              assert.equal(result['fnconform'],'fn123');
             }
           }
           //

@@ -118,10 +118,17 @@ helpers.schema = {
       }
     },
     fnvalidator: {
-      conform: function (line) {
+      name: 'fnvalidator',
+      validator: function (line) {
         return line.slice(0,2) == 'fn';
       },
       message: 'fnvalidator must start with "fn"'
+    },
+    fnconform: {
+      conform: function (line) {
+        return line.slice(0,2) == 'fn';
+      },
+      message: 'fnconform must start with "fn"'
     }/*,
     cbvalidator: {
       conform: function (line, next) {
