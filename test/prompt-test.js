@@ -9,6 +9,7 @@ var assert = require('assert'),
     vows = require('vows'),
     prompt = require('../lib/prompt'),
     helpers = require('./helpers'),
+    macros = require('./macros'),
     schema = helpers.schema;
 
 // A helper to pass fragments of our schema into prompt as full schemas.
@@ -23,20 +24,17 @@ function grab () {
   return complete;
 };
 
+//
+// Reset the prompt for mock testing
+//
+prompt.started = false;
+prompt.start({
+  stdin: helpers.stdin,
+  stdout: helpers.stdout
+});
+
 vows.describe('prompt').addBatch({
   "When using prompt": {
-    topic: function () {
-      //
-      // Reset the prompt for mock testing
-      //
-      prompt.started = false;
-      prompt.start({
-        stdin: helpers.stdin,
-        stdout: helpers.stdout
-      });
-
-      return null;
-    },
     "the getInput() method": {
       "with a simple string prompt": {
         topic: function () {
@@ -54,6 +52,11 @@ vows.describe('prompt').addBatch({
           assert.isTrue(this.msg.indexOf('test input') !== -1);
         }
       },
+    }
+  }
+}).addBatch({
+  "When using prompt": {
+    "the getInput() method": {
       "with any field that is not supposed to be empty": {
         "and we don't provide any input": {
           topic: function () {
@@ -77,7 +80,12 @@ vows.describe('prompt').addBatch({
             assert.isTrue(this.msg.indexOf('notblank') !== -1);
           }
         }
-      },
+      }
+    }
+  }
+}).addBatch({
+  "When using prompt": {
+    "the getInput() method": {
       "with a hidden field that is not supposed to be empty": {
         "and we provide valid input": {
           topic: function () {
@@ -96,6 +104,13 @@ vows.describe('prompt').addBatch({
             assert.isTrue(this.msg.indexOf('password') !== -1);
           }
         },
+      }
+    }
+  }
+}).addBatch({
+  "When using prompt": {
+    "the getInput() method": {
+      "with a hidden field that is not supposed to be empty": {
         "and we don't provide an input": {
           topic: function () {
             var that = this;
@@ -118,7 +133,12 @@ vows.describe('prompt').addBatch({
             assert.isTrue(this.msg.indexOf('password') !== -1);
           }
         }
-      },
+      }
+    }
+  }
+}).addBatch({
+  "When using prompt": {
+    "the getInput() method": {
       "with a complex property prompt": {
         "and a valid input": {
           topic: function () {
@@ -135,7 +155,14 @@ vows.describe('prompt').addBatch({
             assert.equal(input, 'some-user');
             assert.isTrue(this.msg.indexOf('username') !== -1);
           }
-        },
+        }
+      }
+    }
+  }
+}).addBatch({
+  "When using prompt": {
+    "the getInput() method": {
+      "with a complex property prompt": {
         "and an invalid input": {
           topic: function () {
             var that = this;
@@ -165,7 +192,14 @@ vows.describe('prompt').addBatch({
             assert.isTrue(this.errmsg.indexOf('Invalid input') !== -1);
             assert.isTrue(this.msg.indexOf('username') !== -1);
           }
-        },
+        }
+      }
+    }
+  }
+}).addBatch({
+  "When using prompt": {
+    "the getInput() method": {
+      "with a complex property prompt": {
         "with an invalid validator (array)": {
           topic: function () {
             var that = this,
@@ -188,18 +222,6 @@ vows.describe('prompt').addBatch({
   }
 }).addBatch({
   "When using prompt": {
-    topic: function () {
-      //
-      // Reset the prompt for mock testing
-      //
-      prompt.started = false;
-      prompt.start({
-        stdin: helpers.stdin,
-        stdout: helpers.stdout
-      });
-
-      return null;
-    },
     "the get() method": {
       "with a simple string prompt": {
         "that is not a property in prompt.properties": {
@@ -219,6 +241,13 @@ vows.describe('prompt').addBatch({
             assert.isTrue(this.msg.indexOf('test input') !== -1);
           }
         },
+      }
+    }
+  }
+}).addBatch({
+  "When using prompt": {
+    "the get() method": {
+      "with a simple string prompt": {
         "that is a property name in prompt.properties": {
           "with a default value": {
             topic: function () {
@@ -240,6 +269,15 @@ vows.describe('prompt').addBatch({
               assert.equal(result['riffwabbles'], schema.properties['riffwabbles'].default);
             }
           },
+        }
+      }
+    }
+  }
+}).addBatch({
+  "When using prompt": {
+    "the get() method": {
+      "with a simple string prompt": {
+        "that is a property name in prompt.properties": {
           "with a sync function validator (.validator)": {
             topic: function () {
               var that = this;
@@ -256,6 +294,15 @@ vows.describe('prompt').addBatch({
               assert.equal(result['fnvalidator'],'fn123');
             }
           },
+        }
+      }
+    }
+  }
+}).addBatch({
+  "When using prompt": {
+    "the get() method": {
+      "with a simple string prompt": {
+        "that is a property name in prompt.properties": {
           "with a sync function validator (.conform)": {
             topic: function () {
               var that = this;
@@ -293,6 +340,11 @@ vows.describe('prompt').addBatch({
           // }
         }
       },
+    }
+  }
+}).addBatch({
+  "When using prompt": {
+    "the get() method": {
       "skip prompt with prompt.overide": {
         topic: function () {
           prompt.override = { coconihet: 'whatever' }
@@ -306,18 +358,6 @@ vows.describe('prompt').addBatch({
   }
 }).addBatch({
   "When using prompt": {
-    topic: function () {
-      //
-      // Reset the prompt for mock testing
-      //
-      prompt.started = false;
-      prompt.start({
-        stdin: helpers.stdin,
-        stdout: helpers.stdout
-      });
-
-      return null;
-    },
     "the addProperties() method": {
       topic: function () {
         prompt.addProperties({}, ['foo', 'bar'], this.callback);
@@ -333,18 +373,6 @@ vows.describe('prompt').addBatch({
   }
 }).addBatch({
   "When using prompt": {
-    topic: function () {
-      //
-      // Reset the prompt for mock testing
-      //
-      prompt.started = false;
-      prompt.start({
-        stdin: helpers.stdin,
-        stdout: helpers.stdout
-      });
-
-      return null;
-    },
     "the get() method": {
       "with old schema": {
         topic: function () {
@@ -370,18 +398,6 @@ vows.describe('prompt').addBatch({
   }
 }).addBatch({
   "When using prompt": {
-    topic: function () {
-      //
-      // Reset the prompt for mock testing
-      //
-      prompt.started = false;
-      prompt.start({
-        stdin: helpers.stdin,
-        stdout: helpers.stdout
-      });
-
-      return null;
-    },
     "the history() method": {
       "when used inside of a complex property": {
         "with correct value(s)": {
@@ -395,6 +411,13 @@ vows.describe('prompt').addBatch({
             assert.equal(result.sound, 'woof');
           }
         },
+      }
+    }
+  }
+}).addBatch({
+  "When using prompt": {
+    "the history() method": {
+      "when used inside of a complex property": {
         "with an incorrect value": {
           topic: function () {
             prompt.get([grab('animal'), grab('sound')], function () {});
@@ -411,18 +434,6 @@ vows.describe('prompt').addBatch({
   }
 }).addBatch({
   "when using prompt": {
-    topic: function () {
-      //
-      // Reset the prompt for mock testing
-      //
-      prompt.started = false;
-      prompt.start({
-        stdin: helpers.stdin,
-        stdout: helpers.stdout
-      });
-
-      return null;
-    },
     "the get() method": {
       topic: function () {
         prompt.override = { xyz: 468, abc: 123 }
@@ -435,19 +446,7 @@ vows.describe('prompt').addBatch({
     }
   }
 }).addBatch({
-  "when using prompt": {
-    topic: function () {
-      //
-      // Reset the prompt for mock testing
-      //
-      prompt.started = false;
-      prompt.start({
-        stdin: helpers.stdin,
-        stdout: helpers.stdout
-      });
-
-      return null;
-    },
+  "When using prompt": {
     "with fancy properties": {
       "the get() method": {
         topic: function () {
@@ -472,228 +471,129 @@ vows.describe('prompt').addBatch({
       }
     }
   }
-}).addBatch({
-  "when using prompt": {
-    topic: function () {
-      //
-      // Reset the prompt for mock testing
-      //
-      prompt.started = false;
-      prompt.start({
-        stdin: helpers.stdin,
-        stdout: helpers.stdout
-      });
-
-      return null;
+}).addBatch(
+  macros.shouldConfirm({
+    messages: ['with a string message'],
+    prop: 'test',
+    response: 'Y'
+  })
+).addBatch(
+  macros.shouldNotConfirm({
+    messages: ['with a string message'],
+    prop: 'test',
+    response: 'N'
+  })
+).addBatch(
+  macros.shouldConfirm({
+    messages: ['with a string message'],
+    prop: 'test',
+    response: 'YES'
+  })
+).addBatch(
+  macros.shouldNotConfirm({
+    messages: ['with a string message'],
+    prop: 'test',
+    response: 'NO'
+  })
+).addBatch(
+  macros.shouldConfirm({
+    messages: ['with a string message'],
+    prop: 'test',
+    response: 'T'
+  })
+).addBatch(
+  macros.shouldNotConfirm({
+    messages: ['with a string message'],
+    prop: 'test',
+    response: 'F'
+  })
+).addBatch(
+  macros.shouldConfirm({
+    messages: ['with a string message'],
+    prop: 'test',
+    response: 'TRUE'
+  })
+).addBatch(
+  macros.shouldNotConfirm({
+    messages: ['with a string message'],
+    prop: 'test',
+    response: 'FALSE'
+  })
+).addBatch(
+  macros.shouldConfirm({
+    messages: ['with an object', 'and description set'],
+    prop: { description: 'a custom message' },
+    response: 'Y'
+  })
+).addBatch(
+  macros.shouldConfirm({
+    messages: ['with an object', 'and they forgot the description'],
+    prop: { description: 'a custom message' },
+    response: 'Y'
+  })
+).addBatch(
+  macros.shouldConfirm({
+    messages: ['with an object', 'and custom validators'],
+    prop: {
+      description: 'node or jitsu?',
+      pattern: /^(node|jitsu)/i,
+      yes: /^node/i
     },
-    "the confirm() method": {
-      "with a string message" : {
-        "responding with Y" : {
-          topic: function () {
-            prompt.confirm('test', this.callback);
-            helpers.stdin.writeNextTick('Y\n');
-          },
-          "should respond with true" : function(err, result) {
-            assert.isNull(err);
-            assert.isTrue(result);
-          }
-        },
-        "responding with N" : {
-          topic: function () {
-            prompt.confirm('test', this.callback);
-            helpers.stdin.writeNextTick('N\n');
-          },
-          "should respond with false" : function(err, result) {
-            assert.isNull(err);
-            assert.isFalse(result);
-          }
-        },
-        "responding with YES" : {
-          topic: function () {
-            prompt.confirm('test', this.callback);
-            helpers.stdin.writeNextTick('YES\n');
-          },
-          "should respond with true" : function(err, result) {
-            assert.isNull(err);
-            assert.isTrue(result);
-          }
-        },
-        "responding with NO" : {
-          topic: function () {
-            prompt.confirm('test', this.callback);
-            helpers.stdin.writeNextTick('NO\n');
-          },
-          "should respond with false" : function(err, result) {
-            assert.isNull(err);
-            assert.isFalse(result);
-          }
-        },
-        "responding with T" : {
-          topic: function () {
-            prompt.confirm('test', this.callback);
-            helpers.stdin.writeNextTick('T\n');
-          },
-          "should respond with true" : function(err, result) {
-            assert.isNull(err);
-            assert.isTrue(result);
-          }
-        },
-        "responding with F" : {
-          topic: function () {
-            prompt.confirm('test', this.callback);
-            helpers.stdin.writeNextTick('F\n');
-          },
-          "should respond with false" : function(err, result) {
-            assert.isNull(err);
-            assert.isFalse(result);
-          }
-        },
-        "responding with TRUE" : {
-          topic: function () {
-            prompt.confirm('test', this.callback);
-            helpers.stdin.writeNextTick('TRUE\n');
-          },
-          "should respond with true" : function(err, result) {
-            assert.isNull(err);
-            assert.isTrue(result);
-          }
-        },
-        "responding with FALSE" : {
-          topic: function () {
-            prompt.confirm('test', this.callback);
-            helpers.stdin.writeNextTick('FALSE\n');
-          },
-          "should respond with false" : function(err, result) {
-            assert.isNull(err);
-            assert.isFalse(result);
-          }
-        }
-      },
-      "with an object" : {
-        "and description set" : {
-          topic: function() {
-            prompt.confirm({description:'a custom message'}, this.callback);
-            helpers.stdin.writeNextTick('Y\n');
-          },
-          "should respond with true" : function(err, result) {
-            assert.isNull(err);
-            assert.isTrue(result);
-          }
-        },
-        "and they forgot the description" : {
-          topic: function() {
-            prompt.confirm({}, this.callback);
-            helpers.stdin.writeNextTick('Y\n');
-          },
-          "should respond with true" : function(err, result) {
-            assert.isNull(err);
-            assert.isTrue(result);
-          }
-        },
-        "and custom validators" : {
-          "responding node" : {
-            topic: function() {
-              prompt.confirm({
-                description: 'node or jitsu?',
-                pattern: /^(node|jitsu)/i,
-                yes: /^node/i
-              }, this.callback);
-              helpers.stdin.writeNextTick('node\n');
-            },
-            "should respond with true" : function(err, result) {
-              assert.isNull(err);
-              assert.isTrue(result);
-            }
-          },
-          "responding jitsu" : {
-            topic: function() {
-              prompt.confirm({
-                description: 'node or jitsu?',
-                pattern: /^(node|jitsu)/i,
-                yes: /^node/i
-              }, this.callback);
-              helpers.stdin.writeNextTick('jitsu\n');
-            },
-            "should respond with false" : function(err, result) {
-              assert.isNull(err);
-              assert.isFalse(result);
-            }
-          }
-        }
-      }
+    response: 'node'
+  })
+).addBatch(
+  macros.shouldNotConfirm({
+    messages: ['with an object', 'and custom validators'],
+    prop: {
+      description: 'node or jitsu?',
+      pattern: /^(node|jitsu)/i,
+      yes: /^node/i
     },
-    "with multiple strings" : {
-      "responding with yesses" : {
-        topic: function() {
-          prompt.confirm(["test", "test2", "test3"], this.callback);
-          helpers.stdin.writeSequence(['Y\n', 'y\n', 'YES\n']);
-        },
-        "should respond with true" : function(err, result) {
-          assert.isNull(err);
-          assert.isTrue(result);
-        }
-      },
-      "responding with one no" : {
-        topic: function() {
-          prompt.confirm(["test", "test2", "test3"], this.callback);
-          helpers.stdin.writeSequence(['Y\n', 'N\n', 'YES\n']);
-        },
-        "should respond with false" : function(err, result) {
-          assert.isNull(err);
-          assert.isFalse(result);
-        }
-      },
-      "responding with all noes" : {
-        topic: function() {
-          prompt.confirm(["test", "test2", "test3"], this.callback);
-          helpers.stdin.writeSequence(['n\n', 'NO\n', 'N\n']);
-        },
-        "should respond with false" : function(err, result) {
-          assert.isNull(err);
-          assert.isFalse(result);
-        }
-      }
-    },
-    "with multiple objects" : {
-      "responding with yesses" : {
-        topic: function() {
-          prompt.confirm([
-            { message: "test" },
-            { message: "test2" }
-          ], this.callback);
-          helpers.stdin.writeSequence(['y\n', 'y\n']);
-        },
-        "should respond with true" : function(err, result) {
-          assert.isNull(err);
-          assert.isTrue(result);
-        }
-      },
-      "responding with noes" : {
-        topic: function() {
-          prompt.confirm([
-            { message: "test" },
-            { message: "test2" }
-          ], this.callback);
-          helpers.stdin.writeSequence(['n\n', 'n\n']);
-        },
-        "should respond with false" : function(err, result) {
-          assert.isNull(err);
-          assert.isFalse(result);
-        }
-      },
-      "responding with yes and no" : {
-        topic: function() {
-          prompt.confirm([
-            { message: "test" },
-            { message: "test2" }
-          ], this.callback);
-          helpers.stdin.writeSequence(['n\n', 'y\n']);
-        },
-        "should respond with false" : function(err, result) {
-          assert.isNull(err);
-          assert.isFalse(result);
-        }
-      }
-    }
-  }
-}).export(module);
+    response: 'jitsu'
+  })  
+).addBatch(
+  macros.shouldConfirm({
+    messages: ['with multiple strings'],
+    prop: ["test", "test2", "test3"],
+    response: ['Y\n', 'y\n', 'YES\n']    
+  })
+).addBatch(
+  macros.shouldNotConfirm({
+    messages: ['with multiple strings'],
+    prop: ["test", "test2", "test3"],
+    response: ['Y\n', 'N\n', 'YES\n']    
+  })
+).addBatch(
+  macros.shouldNotConfirm({
+    messages: ['with multiple strings'],
+    prop: ["test", "test2", "test3"],
+    response: ['n\n', 'NO\n', 'N\n']    
+  })
+).addBatch(
+  macros.shouldConfirm({
+    messages: ['with multiple objects'],
+    prop: [
+      { message: "test" },
+      { message: "test2" }
+    ],
+    response: ['y\n', 'y\n']    
+  })  
+).addBatch(
+  macros.shouldNotConfirm({
+    messages: ['with multiple objects'],
+    prop: [
+      { message: "test" },
+      { message: "test2" }
+    ],
+    response: ['n\n', 'n\n']    
+  })
+).addBatch(
+  macros.shouldNotConfirm({
+    messages: ['with multiple objects'],
+    prop: [
+      { message: "test" },
+      { message: "test2" }
+    ],
+    response: ['n\n', 'y\n']    
+  })  
+).export(module);

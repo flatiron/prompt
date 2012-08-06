@@ -5,7 +5,7 @@
  *
  */
 
-var events = require('events'),
+var stream = require('stream'),
     stream = require('stream'),
     util = require('util'),
     prompt = require('../lib/prompt');
@@ -16,9 +16,21 @@ var MockReadWriteStream = helpers.MockReadWriteStream = function () {
   //
   // No need to do anything here, it's just a mock.
   //
+  var self = this;
+  this.on('pipe', function (src) {
+    var _emit = src.emit;
+    src.emit = function () {
+      //console.dir(arguments);
+      _emit.apply(src, arguments);
+    };
+    
+    src.on('data', function (d) {
+      self.emit('data', d + '');
+    })
+  })
 };
 
-util.inherits(MockReadWriteStream, events.EventEmitter);
+util.inherits(MockReadWriteStream, stream.Stream);
 
 ['resume', 'pause', 'setEncoding', 'flush'].forEach(function (method) {
   MockReadWriteStream.prototype[method] = function () { /* Mock */ };
@@ -96,7 +108,6 @@ helpers.schema = {
       required: true
     },
     password: {
-      default: 'Enter 12345 [backspace] [backspace]!',
       hidden: true,
       required: true
     },
