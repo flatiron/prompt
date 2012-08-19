@@ -32,7 +32,7 @@ var MockReadWriteStream = helpers.MockReadWriteStream = function () {
 
 util.inherits(MockReadWriteStream, stream.Stream);
 
-['resume', 'pause', 'setEncoding', 'flush'].forEach(function (method) {
+['resume', 'pause', 'setEncoding', 'flush', 'end'].forEach(function (method) {
   MockReadWriteStream.prototype[method] = function () { /* Mock */ };
 });
 
