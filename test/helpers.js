@@ -100,6 +100,11 @@ helpers.schema = {
       message: 'riffwabbles can only be letters, numbers, and dashes',
       default: 'foobizzles'
     },
+    number: {
+      type: 'number',
+      message: 'pick a number, any number',
+      default: 10
+    },
     username: {
       pattern: /^[\w|\-]+$/,
       message: 'Username can only be letters, numbers, and dashes'

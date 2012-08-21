@@ -278,6 +278,35 @@ vows.describe('prompt').addBatch({
     "the get() method": {
       "with a simple string prompt": {
         "that is a property name in prompt.properties": {
+          "that expects a numeric value": {
+            "and gets valid input": {
+              topic: function () {
+                var that = this;
+
+                helpers.stdout.once('data', function (msg) {
+                  that.msg = msg;
+                });
+
+                prompt.properties.number = schema.properties.number;
+                prompt.get('number', this.callback);
+                helpers.stdin.writeNextTick('15\n');
+              },
+              "should prompt to stdout and respond with a numeric value": function (err, result) {
+                assert.isNull(err);
+                assert.include(result, 'number');
+                assert.equal(result['number'], 15);
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}).addBatch({
+  "When using prompt": {
+    "the get() method": {
+      "with a simple string prompt": {
+        "that is a property name in prompt.properties": {
           "with a sync function validator (.validator)": {
             topic: function () {
               var that = this;
@@ -293,7 +322,7 @@ vows.describe('prompt').addBatch({
               assert.isNull(err);
               assert.equal(result['fnvalidator'],'fn123');
             }
-          },
+          }
         }
       }
     }

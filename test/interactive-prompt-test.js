@@ -32,6 +32,16 @@ vows.describe('prompt/interactive').addBatch({
         "should respond with `123`": function (err, result) {
           assert.isNull(err);
           assert.equal(result, '123');
+        },
+        "and then when passed a complex property expecting a number": {
+          topic: function () {
+            winston.info('When prompted, enter: 123 [enter]');
+            prompt.getInput({ path: ['number'], schema: helpers.schema.properties.number }, this.callback);
+          },
+          "should respond with `123` (as a number)": function (err, result) {
+            assert.isNull(err);
+            assert.equal(result, 123);
+          }
         }
       }
     }
