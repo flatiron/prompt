@@ -108,7 +108,7 @@ Here's an overview of the properties that may be used for validation and prompti
     hidden: true,                        // If true, characters entered will not be output to console.
     default: 'lamepassword',             // Default value to use if no value is entered.
     required: true                        // If true, value entered must be non-empty.
-    before: function(value) { return 'v' + value; } // Runs before prompt callback, useful for modifying user's input
+    before: function(value) { return 'v' + value; } // Runs before node-prompt callbacks. It modifies user's input
   }
 ```
 
