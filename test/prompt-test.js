@@ -374,6 +374,38 @@ vows.describe('prompt').addBatch({
 }).addBatch({
   "When using prompt": {
     "the get() method": {
+      "with a simple string prompt": {
+        "that is a property name in prompt.properties": {
+          "with a sync function before (.before)": {
+            topic: function() {
+              var that = this;
+
+              helpers.stdout.once('data', function(msg) {
+                that.msg = msg;
+              });
+
+              prompt.get({
+                properties: {
+                  fnbefore: {
+                    before: function(v) {
+                      return 'v' + v;
+                    }
+                  }
+                } 
+              }, this.callback);
+              helpers.stdin.writeNextTick('fn456\n');
+            },
+            "should modify user's input": function(e, result) {
+              assert.equal(result.fnbefore, 'vfn456');
+            }
+          }
+        }
+      }
+    }
+  }
+}).addBatch({
+  "When using prompt": {
+    "the get() method": {
       "skip prompt with prompt.overide": {
         topic: function () {
           prompt.override = { coconihet: 'whatever' }
