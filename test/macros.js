@@ -9,7 +9,7 @@ var assert = require('assert'),
     helpers = require('./helpers'),
     prompt = require('../lib/prompt');
 
-exports.shouldConfirm = function (options) {
+exports.shouldConfirm = function (options, mixin) {
   var message = options.response.toString().replace(/\n/g, ''),
       messages = ["When using prompt", "the confirm() method"],
       context = {},
@@ -25,7 +25,10 @@ exports.shouldConfirm = function (options) {
   
   last['responding with ' + message] = {
     topic: function () {
-      prompt.confirm(options.prop, this.callback);
+      if(!mixin)
+        prompt.confirm(options.prop, this.callback);
+      else
+        prompt.confirm(options.prop, mixin, this.callback);
 
       if (!Array.isArray(options.response)) {
         helpers.stdin.writeNextTick(options.response + '\n');
@@ -76,3 +79,4 @@ exports.shouldNotConfirm = function (options) {
   
   return context;
 };
+

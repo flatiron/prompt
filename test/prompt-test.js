@@ -539,6 +539,14 @@ vows.describe('prompt').addBatch({
     response: 'Y'
   })
 ).addBatch(
+  macros.shouldConfirm({
+    messages: ['with an empty string and default yes'],
+    prop: 'test',
+    response: ''
+  }, {
+    default: 'yes'                   
+  })
+).addBatch(
   macros.shouldNotConfirm({
     messages: ['with a string message'],
     prop: 'test',
