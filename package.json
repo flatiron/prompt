@@ -19,7 +19,7 @@
     "winston": "0.6.x"
   },
   "devDependencies": {
-    "vows": "0.6.x"
+    "vows": "0.7.0"
   },
   "main": "./lib/prompt",
   "scripts": {
