@@ -103,6 +103,7 @@ Here's an overview of the properties that may be used for validation and prompti
 ``` js
   {
     description: 'Enter your password',     // Prompt displayed to the user. If not supplied name will be used.
+    type: 'string',                 // Specify the type of input to expect.
     pattern: /^\w+$/,                  // Regular expression that input must be valid against.
     message: 'Password must be letters', // Warning message to display if validation fails.
     hidden: true,                        // If true, characters entered will not be output to console.
@@ -113,6 +114,15 @@ Here's an overview of the properties that may be used for validation and prompti
 ```
 
 Alternatives to `pattern` include `format` and `conform`, as documented in [revalidator](https://github.com/flatiron/revalidator).
+
+Using `type: 'array'` has some special cases.
+
+- `description` will not work in the schema if `type: 'array'` is defined.
+- `maxItems` takes precedence over `minItems`.
+- Arrays that do not have `maxItems` defined will require users to `SIGINT` (`^C`) before the array is ended.
+- If `SIGINT` (`^C`) is triggered before `minItems` is met, a validation error will appear. This will require users to `SIGEOF` (`^D`) to end the input.
+
+For more information on things such as `maxItems` and `minItems`, refer to the [revalidator](https://github.com/flatiron/revalidator) repository.
 
 ### Alternate Validation API:
 
