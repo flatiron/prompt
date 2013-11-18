@@ -377,26 +377,29 @@ vows.describe('prompt').addBatch({
       "with a simple string prompt": {
         "that is a property name in prompt.properties": {
           "with a sync function before (.before)": {
-            topic: function() {
-              var that = this;
+            "should be run before validating the input": {
+              topic: function() {
+                var that = this;
 
-              helpers.stdout.once('data', function(msg) {
-                that.msg = msg;
-              });
+                helpers.stdout.once('data', function(msg) {
+                  that.msg = msg;
+                });
 
-              prompt.get({
-                properties: {
-                  fnbefore: {
-                    before: function(v) {
-                      return 'v' + v;
+                prompt.get({
+                  properties: {
+                    fnbefore: {
+                      pattern: /^vfn456$/,
+                      before: function(v) {
+                        return 'v' + v;
+                      }
                     }
                   }
-                }
-              }, this.callback);
-              helpers.stdin.writeNextTick('fn456\n');
-            },
-            "should modify user's input": function(e, result) {
-              assert.equal(result.fnbefore, 'vfn456');
+                }, this.callback);
+                helpers.stdin.writeNextTick('fn456\n');
+              },
+              "should modify user's input": function(e, result) {
+                assert.equal(result.fnbefore, 'vfn456');
+              }
             }
           }
         }
