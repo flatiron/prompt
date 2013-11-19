@@ -38,7 +38,7 @@ Getting started with `prompt` is easy. Lets take a look at `examples/simple-prom
 This will result in the following command-line output:
 
 ```
-  $ node examples/simple-prompt.js 
+  $ node examples/simple-prompt.js
   prompt: username: some-user
   prompt: email: some-user@some-place.org
   Command-line input received:
@@ -81,7 +81,7 @@ In addition to prompting the user with simple string prompts, there is a robust 
   });
 ```
 
-Pretty easy right? The output from the above script is: 
+Pretty easy right? The output from the above script is:
 
 ```
   $ node examples/property-prompt.js
@@ -89,10 +89,10 @@ Pretty easy right? The output from the above script is:
   error:  Invalid input for name
   error:  Name must be only letters, spaces, or dashes
   prompt: name: Nodejitsu Inc
-  prompt: password: 
+  prompt: password:
   Command-line input received:
     name: Nodejitsu Inc
-    password: some-password  
+    password: some-password
 ```
 
 ## Valid Property Settings
@@ -164,8 +164,8 @@ Note that, while this structure is similar to that used by prompt 0.1.x, that th
 
 ### Skipping Prompts
 
-Sometimes power users may wish to skip promts and specify all data as command line options. 
-if a value is set as a property of `prompt.override` prompt will use that instead of 
+Sometimes power users may wish to skip promts and specify all data as command line options.
+if a value is set as a property of `prompt.override` prompt will use that instead of
 prompting the user.
 
 ``` js
@@ -200,8 +200,8 @@ prompting the user.
 ```
 
 
-### Adding Properties to an Object 
-A common use-case for prompting users for data from the command-line is to extend or create a configuration object that is passed onto the entry-point method for your CLI tool. `prompt` exposes a convenience method for doing just this: 
+### Adding Properties to an Object
+A common use-case for prompting users for data from the command-line is to extend or create a configuration object that is passed onto the entry-point method for your CLI tool. `prompt` exposes a convenience method for doing just this:
 
 ``` js
   var obj = {
@@ -224,6 +224,30 @@ A common use-case for prompting users for data from the command-line is to exten
     //
     console.log('Updated object received:');
     console.dir(obj);
+  });
+```
+
+### Prompt history
+You can use the `prompt.history()` method to get access to previous prompt input.
+
+``` js
+  prompt.get([{
+    name: 'name',
+    description: 'Your name',
+    type: 'string',
+    require: true
+  }, {
+    name: 'surname',
+    description: 'Your surname',
+    type: 'string',
+    require: true,
+    message: 'Please dont use the demo credentials',
+    conform: function(surname) {
+      var name = prompt.history('name').value;
+      return (name !== 'John' || surname !== 'Smith');
+    }
+  }], function(err, results) {
+    console.log(results);
   });
 ```
 
@@ -282,7 +306,7 @@ prompt.colors = false;
 
 ## Running tests
 
-``` bash 
+``` bash
   $ npm test
 ```
 
