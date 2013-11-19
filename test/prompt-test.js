@@ -470,6 +470,8 @@ vows.describe('prompt').addBatch({
             assert.isTrue(!err);
             assert.equal(result.animal, 'dog');
             assert.equal(result.sound, 'woof');
+            assert.equal(prompt.history('nothing'), null);
+            assert.deepEqual(prompt.history('animal'), { property: 'animal', value: 'dog' });
           }
         },
       }
