@@ -391,7 +391,7 @@ vows.describe('prompt').addBatch({
                       return 'v' + v;
                     }
                   }
-                } 
+                }
               }, this.callback);
               helpers.stdin.writeNextTick('fn456\n');
             },
@@ -470,6 +470,8 @@ vows.describe('prompt').addBatch({
             assert.isTrue(!err);
             assert.equal(result.animal, 'dog');
             assert.equal(result.sound, 'woof');
+            assert.equal(prompt.history('nothing'), null);
+            assert.deepEqual(prompt.history('animal'), { property: 'animal', value: 'dog' });
           }
         },
       }
@@ -544,7 +546,7 @@ vows.describe('prompt').addBatch({
     prop: 'test',
     response: ''
   }, {
-    default: 'yes'                   
+    default: 'yes'
   })
 ).addBatch(
   macros.shouldNotConfirm({
@@ -619,42 +621,33 @@ vows.describe('prompt').addBatch({
       yes: /^node/i
     },
     response: 'jitsu'
-  })  
-).addBatch(
-  macros.shouldConfirm({
-    messages: ['with multiple strings'],
-    prop: ["test", "test2", "test3"],
-    response: ['Y\n', 'y\n', 'YES\n']    
-  })
-).addBatch(
-  macros.shouldNotConfirm({
-    messages: ['with multiple strings'],
-    prop: ["test", "test2", "test3"],
-    response: ['Y\n', 'N\n', 'YES\n']    
-  })
-).addBatch(
-  macros.shouldNotConfirm({
-    messages: ['with multiple strings'],
-    prop: ["test", "test2", "test3"],
-    response: ['n\n', 'NO\n', 'N\n']    
   })
 ).addBatch(
   macros.shouldConfirm({
-    messages: ['with multiple objects'],
-    prop: [
-      { message: "test" },
-      { message: "test2" }
-    ],
-    response: ['y\n', 'y\n']    
-  })  
+    messages: ['with multiple strings'],
+    prop: ["test", "test2", "test3"],
+    response: ['Y\n', 'y\n', 'YES\n']
+  })
 ).addBatch(
   macros.shouldNotConfirm({
+    messages: ['with multiple strings'],
+    prop: ["test", "test2", "test3"],
+    response: ['Y\n', 'N\n', 'YES\n']
+  })
+).addBatch(
+  macros.shouldNotConfirm({
+    messages: ['with multiple strings'],
+    prop: ["test", "test2", "test3"],
+    response: ['n\n', 'NO\n', 'N\n']
+  })
+).addBatch(
+  macros.shouldConfirm({
     messages: ['with multiple objects'],
     prop: [
       { message: "test" },
       { message: "test2" }
     ],
-    response: ['n\n', 'n\n']    
+    response: ['y\n', 'y\n']
   })
 ).addBatch(
   macros.shouldNotConfirm({
@@ -663,6 +656,15 @@ vows.describe('prompt').addBatch({
       { message: "test" },
       { message: "test2" }
     ],
-    response: ['n\n', 'y\n']    
-  })  
+    response: ['n\n', 'n\n']
+  })
+).addBatch(
+  macros.shouldNotConfirm({
+    messages: ['with multiple objects'],
+    prop: [
+      { message: "test" },
+      { message: "test2" }
+    ],
+    response: ['n\n', 'y\n']
+  })
 ).export(module);
