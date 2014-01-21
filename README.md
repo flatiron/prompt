@@ -235,12 +235,12 @@ You can use the `prompt.history()` method to get access to previous prompt input
     name: 'name',
     description: 'Your name',
     type: 'string',
-    require: true
+    required: true
   }, {
     name: 'surname',
     description: 'Your surname',
     type: 'string',
-    require: true,
+    required: true,
     message: 'Please dont use the demo credentials',
     conform: function(surname) {
       var name = prompt.history('name').value;
