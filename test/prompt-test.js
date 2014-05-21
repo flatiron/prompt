@@ -534,7 +534,34 @@ vows.describe('prompt').addBatch({
       }
     }
   }
-}).addBatch(
+}).addBatch({
+  "When using prompt": {
+    "with a type and a description property": {
+        "the get() method": {
+          topic: function () {
+            var that = this;
+            helpers.stdout.once('data', function (msg) {
+              that.msg = msg;
+            });
+
+            prompt.get({
+              name: 'test',
+              type: 'number',
+              description: 'Please input a number'
+            }, this.callback);
+            helpers.stdin.writeNextTick('42\n');
+          },
+          "should prompt to stdout and respond with the value": function (err, result) {
+            assert.isNull(err);
+            assert.include(result, 'test');
+            assert.equal(result['test'], '42');
+            assert.isTrue(this.msg.indexOf('Please input a number') !== -1);
+          }
+        },
+      }
+    }
+  })
+.addBatch(
   macros.shouldConfirm({
     messages: ['with a string message'],
     prop: 'test',
