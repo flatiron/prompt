@@ -6,7 +6,6 @@
  */
 
 var stream = require('stream'),
-    stream = require('stream'),
     util = require('util'),
     prompt = require('../lib/prompt');
 
