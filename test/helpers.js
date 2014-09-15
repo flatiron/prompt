@@ -22,7 +22,7 @@ var MockReadWriteStream = helpers.MockReadWriteStream = function () {
       //console.dir(arguments);
       _emit.apply(src, arguments);
     };
-    
+
     src.on('data', function (d) {
       self.emit('data', d + '');
     })
@@ -77,7 +77,7 @@ helpers.stdin.writeSequence = function (lines) {
 // Monkey punch `util.error` to silence console output
 // and redirect to helpers.stderr for testing.
 //
-console.error = function () {
+process.stderr.write = function () {
   helpers.stderr.write.apply(helpers.stderr, arguments);
 }
 
