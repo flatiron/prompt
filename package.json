@@ -26,6 +26,7 @@
     "test": "vows test/prompt-test.js --spec",
     "test-all": "vows --spec"
   },
+  "license": "MIT",
   "engines": {
     "node": ">= 0.6.6"
   }
