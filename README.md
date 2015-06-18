@@ -206,7 +206,7 @@ If `ask` returns true the prompt is displayed. otherwise, the default value or e
 ``` js
   var schema = {
     properties: {
-      proxyCredentials: {
+      proxy: {
         description: 'Proxy url',
       },
       proxyCredentials: {
