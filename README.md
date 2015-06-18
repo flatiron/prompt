@@ -164,7 +164,7 @@ Note that, while this structure is similar to that used by prompt 0.1.x, that th
 
 ### Skipping Prompts
 
-Sometimes power users may wish to skip promts and specify all data as command line options.
+Sometimes power users may wish to skip prompts and specify all data as command line options.
 if a value is set as a property of `prompt.override` prompt will use that instead of
 prompting the user.
 
@@ -197,6 +197,45 @@ prompting the user.
   })
 
   //: node prompt-override.js --username USER --email EMAIL
+```
+
+It is also possible to skip prompts dynamically based on previous prompts.
+If an `ask` method is added, prompt will use it to determine if the prompt should be displayed.
+If `ask` returns true the prompt is displayed. otherwise, the default value or empty string are used.
+
+``` js
+  var schema = {
+    properties: {
+      proxyCredentials: {
+        description: 'Proxy url',
+      },
+      proxyCredentials: {
+        description: 'Proxy credentials',
+        ask: function() {
+          // only ask for proxy credentials if a proxy was set
+          return prompt.history('proxy').value > 0;
+        }
+      }
+    }
+  };
+
+  //
+  // Start the prompt
+  //
+  prompt.start();
+
+  //
+  // Get one or two properties from the user, depending on
+  // what the user answered for proxy
+  //
+  prompt.get(schema, function (err, result) {
+    //
+    // Log the results.
+    //
+    console.log('Command-line input received:');
+    console.log('  proxy: ' + result.proxy);
+    console.log('  credentials: ' + result.proxyCredentials);
+  });
 ```
 
 
