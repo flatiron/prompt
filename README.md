@@ -9,7 +9,7 @@ A beautiful command-line prompt for node.js
 * hides passwords
 
 ## Usage
-Using prompt is relatively straight forward. There are two core methods you should be aware of: `prompt.get()` and `prompt.addProperties()`. There methods take strings representing property names in addition to objects for complex property validation (and more). There are a number of [examples][0] that you should examine for detailed usage.
+Using prompt is relatively straight forward. There are two core methods you should be aware of: `prompt.get()` and `prompt.addProperties()`. Their methods take strings representing property names in addition to objects for complex property validation (and more). There are a number of [examples][0] that you should examine for detailed usage.
 
 ### Getting Basic Prompt Information
 Getting started with `prompt` is easy. Lets take a look at `examples/simple-prompt.js`:
