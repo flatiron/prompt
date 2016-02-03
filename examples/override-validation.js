@@ -47,6 +47,6 @@ prompt.get(schema, function (err, result) {
 
 // try running
 // $ node ./override-validation.js --name USER --email EMAIL
-// You will only be asked for email becasue it's invalid
+// You will only be asked for email because it's invalid
 // $ node ./override-validation.js --name h$acker --email me@example.com
-// You will only be asked for email becasue it's invalid
+// You will only be asked for name becasue it's invalid
