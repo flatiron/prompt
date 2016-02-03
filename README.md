@@ -164,7 +164,7 @@ Note that, while this structure is similar to that used by prompt 0.1.x, that th
 
 ### Skipping Prompts
 
-Sometimes power users may wish to skip promts and specify all data as command line options.
+Sometimes power users may wish to skip prompts and specify all data as command line options.
 if a value is set as a property of `prompt.override` prompt will use that instead of
 prompting the user.
 
