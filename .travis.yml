@@ -9,3 +9,4 @@ notifications:
   email:
     - travis@nodejitsu.com
   irc: "irc.freenode.org#nodejitsu"
+sudo: false
