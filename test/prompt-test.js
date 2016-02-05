@@ -189,7 +189,7 @@ vows.describe('prompt').addBatch({
           "should prompt with an error before completing the operation": function (err, input) {
             assert.isNull(err);
             assert.equal(input, 'some-user');
-            assert.isTrue(this.errmsg.indexOf('Invalid input') !== -1);
+            assert.isTrue(this.errmsg.indexOf('Username can only be letters, numbers, and dashes') !== -1);
             assert.isTrue(this.msg.indexOf('username') !== -1);
           }
         }
