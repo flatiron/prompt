@@ -116,6 +116,10 @@ Here's an overview of the properties that may be used for validation and prompti
 
 Alternatives to `pattern` include `format` and `conform`, as documented in [revalidator](https://github.com/flatiron/revalidator).
 
+Supported types are `string`, `boolean`, `number`, `integer`, `array`
+
+Using `type: 'boolean'` accepts case insensitive values 'true', 't', 'false', 'f'
+
 Using `type: 'array'` has some special cases.
 
 - `description` will not work in the schema if `type: 'array'` is defined.

@@ -104,6 +104,12 @@ helpers.schema = {
       message: 'pick a number, any number',
       default: 10
     },
+    integer: {
+      type: 'integer'
+    },
+    boolean: {
+      type: 'boolean'
+    },
     username: {
       pattern: /^[\w|\-]+$/,
       message: 'Username can only be letters, numbers, and dashes'
