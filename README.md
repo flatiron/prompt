@@ -9,7 +9,7 @@ A beautiful command-line prompt for node.js
 * hides passwords
 
 ## Usage
-Using prompt is relatively straight forward. There are two core methods you should be aware of: `prompt.get()` and `prompt.addProperties()`. There methods take strings representing property names in addition to objects for complex property validation (and more). There are a number of [examples][0] that you should examine for detailed usage.
+Using prompt is relatively straight forward. There are two core methods you should be aware of: `prompt.get()` and `prompt.addProperties()`. Their methods take strings representing property names in addition to objects for complex property validation (and more). There are a number of [examples][0] that you should examine for detailed usage.
 
 ### Getting Basic Prompt Information
 Getting started with `prompt` is easy. Lets take a look at `examples/simple-prompt.js`:
@@ -106,7 +106,8 @@ Here's an overview of the properties that may be used for validation and prompti
     type: 'string',                 // Specify the type of input to expect.
     pattern: /^\w+$/,                  // Regular expression that input must be valid against.
     message: 'Password must be letters', // Warning message to display if validation fails.
-    hidden: true,                        // If true, characters entered will not be output to console.
+    hidden: true,                        // If true, characters entered will either not be output to console or will be outputed using the `replace` string.
+    replace: '*',                        // If `hidden` is set it will replace each hidden character with the specified string.
     default: 'lamepassword',             // Default value to use if no value is entered.
     required: true                        // If true, value entered must be non-empty.
     before: function(value) { return 'v' + value; } // Runs before node-prompt callbacks. It modifies user's input
