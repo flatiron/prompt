@@ -342,6 +342,89 @@ var prompt = require('prompt');
 prompt.colors = false;
 ```
 
+## Integration with streamlinejs
+
+When integrating prompt with projects using streamlinejs such as the following
+
+```
+prompt.start();
+function test_prompt(_){
+    console.log(prompt.get(loadDataValues(), _).output);
+}
+test_prompt(_);
+```
+
+This will work, however the process is then stuck with a stdin stream still open. If you setup the traditional way (with callback) such as this
+ 
+ ```
+prompt.start();
+function test_prompt(){
+    prompt.get(loadDataValues(), function(err, data){
+        console.log(data.output);
+    });
+}
+test_prompt();
+```
+This works and ends correctly.
+
+To resolve this we have added a new method to prompt, which will stop the stdin stream
+
+```
+//
+// ### function stop ()
+// Stops input coming in from stdin
+//
+prompt.stop = function () {
+    if (prompt.stopped || !prompt.started) {
+        return;
+    }
+
+    stdin.destroy();
+    prompt.emit('stop');
+    prompt.stopped = true;
+    prompt.started = false;
+    prompt.paused = false;
+    return prompt;
+}
+```
+
+And you can find an example in the example folder `examples/prompt-streamline.js`
+
+```
+/*
+ * prompt-streamline._js: Example of how to use prompt with streamlinejs.
+ *
+ * calling syntax: _node prompt-streamline._js
+ *
+ */
+var prompt = require('../lib/prompt');
+
+function getSampleData(){
+    return [
+        {
+            name: 'username',
+            message: 'Enter a username'
+        }
+    ];
+};
+
+//
+// Start the prompt
+//
+prompt.start();
+
+function get_username_prompt(_){
+    console.log(prompt.get(getSampleData(), _).username);
+}
+
+get_username_prompt(_);
+
+//
+// Clean the prompt
+//
+prompt.stop();
+```
+
 ## Installation
 
 ``` bash
