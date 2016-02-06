@@ -321,6 +321,7 @@ function test_prompt(){
 }
 test_prompt();
 ```
+This works and ends correctly.
 
 To resolve this we have added a new method to prompt, which will stop the stdin stream
 
