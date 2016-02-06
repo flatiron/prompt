@@ -344,7 +344,7 @@ prompt.stop = function () {
 }
 ```
 
-And you can find an example in the example folder (prompt-streamline.js)
+And you can find an example in the example folder `examples/prompt-streamline.js`
 
 ```
 /*
