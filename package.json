@@ -16,7 +16,7 @@
     "read": "1.0.x",
     "revalidator": "0.1.x",
     "utile": "0.2.x",
-    "winston": "0.8.x"
+    "winston": "1.0.x"
   },
   "devDependencies": {
     "vows": "0.7.0"
