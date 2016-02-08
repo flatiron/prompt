@@ -16,7 +16,7 @@
     "pkginfo": "0.x.x",
     "read": "1.0.x",
     "revalidator": "0.1.x",
-    "utile": "0.2.x",
+    "utile": "0.3.x",
     "winston": "2.1.x"
   },
   "devDependencies": {
