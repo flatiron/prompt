@@ -313,25 +313,25 @@ addition, prompt supports ANSI color codes via the
 very colorful example:
 
 ``` js
-  var prompt = require("prompt");
+var prompt = require("../lib/prompt");
+var colors = require("colors/safe");
+//
+// Setting these properties customizes the prompt.
+//
+prompt.message = colors.rainbow("Question!");
+prompt.delimiter = colors.green("><");
 
-  //
-  // Setting these properties customizes the prompt.
-  //
-  prompt.message = "Question!".rainbow;
-  prompt.delimiter = "><".green;
+prompt.start();
 
-  prompt.start();
-
-  prompt.get({
-    properties: {
-      name: {
-        description: "What is your name?".magenta
-      }
+prompt.get({
+  properties: {
+    name: {
+      description: colors.magenta("What is your name?")
     }
-  }, function (err, result) {
-    console.log("You said your name is: ".cyan + result.name.cyan);
-  });
+  }
+}, function (err, result) {
+  console.log(colors.cyan("You said your name is: " + result.name));
+});
 ```
 
 If you don't want colors, you can set
@@ -355,7 +355,7 @@ test_prompt(_);
 ```
 
 This will work, however the process is then stuck with a stdin stream still open. If you setup the traditional way (with callback) such as this
- 
+
  ```
 prompt.start();
 function test_prompt(){
