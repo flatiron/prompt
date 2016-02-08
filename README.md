@@ -313,25 +313,25 @@ addition, prompt supports ANSI color codes via the
 very colorful example:
 
 ``` js
-var prompt = require("../lib/prompt");
-var colors = require("colors/safe");
-//
-// Setting these properties customizes the prompt.
-//
-prompt.message = colors.rainbow("Question!");
-prompt.delimiter = colors.green("><");
+  var prompt = require("prompt");
+  var colors = require("colors/safe");
+  //
+  // Setting these properties customizes the prompt.
+  //
+  prompt.message = colors.rainbow("Question!");
+  prompt.delimiter = colors.green("><");
 
-prompt.start();
+  prompt.start();
 
-prompt.get({
-  properties: {
-    name: {
-      description: colors.magenta("What is your name?")
+  prompt.get({
+    properties: {
+      name: {
+        description: colors.magenta("What is your name?")
+      }
     }
-  }
-}, function (err, result) {
-  console.log(colors.cyan("You said your name is: " + result.name));
-});
+  }, function (err, result) {
+    console.log(colors.cyan("You said your name is: " + result.name));
+  });
 ```
 
 If you don't want colors, you can set
