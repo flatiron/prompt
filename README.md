@@ -9,7 +9,7 @@ A beautiful command-line prompt for node.js
 * hides passwords
 
 ## Usage
-Using prompt is relatively straight forward. There are two core methods you should be aware of: `prompt.get()` and `prompt.addProperties()`. There methods take strings representing property names in addition to objects for complex property validation (and more). There are a number of [examples][0] that you should examine for detailed usage.
+Using prompt is relatively straight forward. There are two core methods you should be aware of: `prompt.get()` and `prompt.addProperties()`. Their methods take strings representing property names in addition to objects for complex property validation (and more). There are a number of [examples][0] that you should examine for detailed usage.
 
 ### Getting Basic Prompt Information
 Getting started with `prompt` is easy. Lets take a look at `examples/simple-prompt.js`:
@@ -106,7 +106,8 @@ Here's an overview of the properties that may be used for validation and prompti
     type: 'string',                 // Specify the type of input to expect.
     pattern: /^\w+$/,                  // Regular expression that input must be valid against.
     message: 'Password must be letters', // Warning message to display if validation fails.
-    hidden: true,                        // If true, characters entered will not be output to console.
+    hidden: true,                        // If true, characters entered will either not be output to console or will be outputed using the `replace` string.
+    replace: '*',                        // If `hidden` is set it will replace each hidden character with the specified string.
     default: 'lamepassword',             // Default value to use if no value is entered.
     required: true                        // If true, value entered must be non-empty.
     before: function(value) { return 'v' + value; } // Runs before node-prompt callbacks. It modifies user's input
@@ -114,6 +115,10 @@ Here's an overview of the properties that may be used for validation and prompti
 ```
 
 Alternatives to `pattern` include `format` and `conform`, as documented in [revalidator](https://github.com/flatiron/revalidator).
+
+Supported types are `string`, `boolean`, `number`, `integer`, `array`
+
+Using `type: 'boolean'` accepts case insensitive values 'true', 't', 'false', 'f'
 
 Using `type: 'array'` has some special cases.
 
@@ -164,7 +169,7 @@ Note that, while this structure is similar to that used by prompt 0.1.x, that th
 
 ### Skipping Prompts
 
-Sometimes power users may wish to skip promts and specify all data as command line options.
+Sometimes power users may wish to skip prompts and specify all data as command line options.
 if a value is set as a property of `prompt.override` prompt will use that instead of
 prompting the user.
 
@@ -197,6 +202,45 @@ prompting the user.
   })
 
   //: node prompt-override.js --username USER --email EMAIL
+```
+
+It is also possible to skip prompts dynamically based on previous prompts.
+If an `ask` method is added, prompt will use it to determine if the prompt should be displayed.
+If `ask` returns true the prompt is displayed. otherwise, the default value or empty string are used.
+
+``` js
+  var schema = {
+    properties: {
+      proxy: {
+        description: 'Proxy url',
+      },
+      proxyCredentials: {
+        description: 'Proxy credentials',
+        ask: function() {
+          // only ask for proxy credentials if a proxy was set
+          return prompt.history('proxy').value > 0;
+        }
+      }
+    }
+  };
+
+  //
+  // Start the prompt
+  //
+  prompt.start();
+
+  //
+  // Get one or two properties from the user, depending on
+  // what the user answered for proxy
+  //
+  prompt.get(schema, function (err, result) {
+    //
+    // Log the results.
+    //
+    console.log('Command-line input received:');
+    console.log('  proxy: ' + result.proxy);
+    console.log('  credentials: ' + result.proxyCredentials);
+  });
 ```
 
 
@@ -270,23 +314,23 @@ very colorful example:
 
 ``` js
   var prompt = require("prompt");
-
+  var colors = require("colors/safe");
   //
   // Setting these properties customizes the prompt.
   //
-  prompt.message = "Question!".rainbow;
-  prompt.delimiter = "><".green;
+  prompt.message = colors.rainbow("Question!");
+  prompt.delimiter = colors.green("><");
 
   prompt.start();
 
   prompt.get({
     properties: {
       name: {
-        description: "What is your name?".magenta
+        description: colors.magenta("What is your name?")
       }
     }
   }, function (err, result) {
-    console.log("You said your name is: ".cyan + result.name.cyan);
+    console.log(colors.cyan("You said your name is: " + result.name));
   });
 ```
 
@@ -298,6 +342,89 @@ var prompt = require('prompt');
 prompt.colors = false;
 ```
 
+## Integration with streamlinejs
+
+When integrating prompt with projects using streamlinejs such as the following
+
+```
+prompt.start();
+function test_prompt(_){
+    console.log(prompt.get(loadDataValues(), _).output);
+}
+test_prompt(_);
+```
+
+This will work, however the process is then stuck with a stdin stream still open. If you setup the traditional way (with callback) such as this
+
+ ```
+prompt.start();
+function test_prompt(){
+    prompt.get(loadDataValues(), function(err, data){
+        console.log(data.output);
+    });
+}
+test_prompt();
+```
+This works and ends correctly.
+
+To resolve this we have added a new method to prompt, which will stop the stdin stream
+
+```
+//
+// ### function stop ()
+// Stops input coming in from stdin
+//
+prompt.stop = function () {
+    if (prompt.stopped || !prompt.started) {
+        return;
+    }
+
+    stdin.destroy();
+    prompt.emit('stop');
+    prompt.stopped = true;
+    prompt.started = false;
+    prompt.paused = false;
+    return prompt;
+}
+```
+
+And you can find an example in the example folder `examples/prompt-streamline.js`
+
+```
+/*
+ * prompt-streamline._js: Example of how to use prompt with streamlinejs.
+ *
+ * calling syntax: _node prompt-streamline._js
+ *
+ */
+var prompt = require('../lib/prompt');
+
+function getSampleData(){
+    return [
+        {
+            name: 'username',
+            message: 'Enter a username'
+        }
+    ];
+};
+
+//
+// Start the prompt
+//
+prompt.start();
+
+function get_username_prompt(_){
+    console.log(prompt.get(getSampleData(), _).username);
+}
+
+get_username_prompt(_);
+
+//
+// Clean the prompt
+//
+prompt.stop();
+```
+
 ## Disabling prompt's built-in SIGINT handling
 
 By default, prompt prompt binds a process-killing event handler to the SIGINT event (CTRL+C). This allows easily exiting from prompts, but can prevent an app from executing other event handlers when an interrupt is received. In order to override this default behavior, pass a `{noHandleSIGINT: true}` option into `prompt.start`.
@@ -307,7 +434,7 @@ By default, prompt prompt binds a process-killing event handler to the SIGINT ev
   // Disable prompt's built-in SIGINT handling:
   //
   prompt.start({noHandleSIGINT: true});
-```
+
 
 ## Installation
 

@@ -13,7 +13,7 @@ var prompt = require('../lib/prompt');
 prompt.start();
 
 //
-// Get two properties from the user: username and password
+// Get two properties from the user: username and password and password masked
 //
 prompt.get([{
     name: 'username',
@@ -24,6 +24,13 @@ prompt.get([{
     conform: function (value) {
       return true;
     }
+  }, {
+    name: 'passwordMasked',
+    hidden: true,
+    replace: '*',
+    conform: function (value) {
+      return true;
+    }
   }], function (err, result) {
   //
   // Log the results.
@@ -31,4 +38,5 @@ prompt.get([{
   console.log('Command-line input received:');
   console.log('  username: ' + result.username);
   console.log('  password: ' + result.password);
+  console.log('  passwordMasked: ' + result.passwordMasked);
 });

@@ -139,6 +139,126 @@ vows.describe('prompt').addBatch({
 }).addBatch({
   "When using prompt": {
     "the getInput() method": {
+      "with an integer field": {
+        "and we provide valid input": {
+          topic: function () {
+            var that = this;
+            helpers.stdout.once('data', function (msg) {
+              that.msg = msg;
+            });
+
+            prompt.getInput(grab('integer'), this.callback);
+            helpers.stdin.writeNextTick('42\n');
+          },
+          "should prompt to stdout and respond with data": function (err, input) {
+            assert.isNull(err);
+            assert.equal(input, '42');
+            assert.isTrue(this.msg.indexOf('integer') !== -1);
+          }
+        },
+      }
+    }
+  }
+}).addBatch({
+  "When using prompt": {
+    "the getInput() method": {
+      "with an integer field": {
+        "and we don't provide an integer": {
+          topic: function () {
+            var that = this;
+            helpers.stdout.once('data', function (msg) {
+              that.msg = msg;
+            });
+
+            helpers.stderr.once('data', function (msg) {
+              that.errmsg = msg;
+            })
+
+            prompt.getInput(grab('integer'), this.callback);
+
+            prompt.once('invalid', function () {
+              prompt.once('prompt', function () {
+                process.nextTick(function () {
+                  helpers.stdin.writeNextTick('42\n');
+                })
+              })
+            });
+
+            helpers.stdin.writeNextTick('4.2\n');
+          },
+          "should prompt with an error before completing the operation": function (err, input) {
+            assert.isNull(err);
+            assert.equal(input, '42');
+            assert.isTrue(this.errmsg.indexOf('Invalid input') !== -1);
+            assert.isTrue(this.msg.indexOf('integer') !== -1);
+          }
+        }
+      }
+    }
+  }
+}).addBatch({
+  "When using prompt": {
+    "the getInput() method": {
+      "with a boolean field": {
+        "and we provide valid input": {
+          topic: function () {
+            var that = this;
+            helpers.stdout.once('data', function (msg) {
+              that.msg = msg;
+            });
+
+            prompt.getInput(grab('boolean'), this.callback);
+            helpers.stdin.writeNextTick('true\n');
+          },
+          "should prompt to stdout and respond with data": function (err, input) {
+            assert.isNull(err);
+            assert.equal(input, true);
+            assert.isTrue(this.msg.indexOf('boolean') !== -1);
+          }
+        },
+      }
+    }
+  }
+}).addBatch({
+  "When using prompt": {
+    "the getInput() method": {
+      "with a boolean field": {
+        "and we don't provide an bool": {
+          topic: function () {
+            var that = this;
+            helpers.stdout.once('data', function (msg) {
+              that.msg = msg;
+            });
+
+            helpers.stderr.once('data', function (msg) {
+              that.errmsg = msg;
+            })
+
+            prompt.getInput(grab('boolean'), this.callback);
+
+            prompt.once('invalid', function () {
+              prompt.once('prompt', function () {
+                process.nextTick(function () {
+                  helpers.stdin.writeNextTick('F\n');
+                })
+              })
+            });
+
+            helpers.stdin.writeNextTick('4.2\n');
+          },
+          "should prompt with an error before completing the operation": function (err, input) {
+            assert.isNull(err);
+            assert.equal(input, false);
+            assert.isTrue(this.errmsg.indexOf('Invalid input') !== -1);
+            assert.isTrue(this.msg.indexOf('boolean') !== -1);
+          }
+        }
+      }
+    }
+  }
+}).addBatch({
+  "When using prompt": {
+    "the getInput() method": {
       "with a complex property prompt": {
         "and a valid input": {
           topic: function () {
@@ -189,7 +309,7 @@ vows.describe('prompt').addBatch({
           "should prompt with an error before completing the operation": function (err, input) {
             assert.isNull(err);
             assert.equal(input, 'some-user');
-            assert.isTrue(this.errmsg.indexOf('Invalid input') !== -1);
+            assert.isTrue(this.errmsg.indexOf('Username can only be letters, numbers, and dashes') !== -1);
             assert.isTrue(this.msg.indexOf('username') !== -1);
           }
         }
