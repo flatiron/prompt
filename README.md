@@ -434,6 +434,12 @@ By default, prompt prompt binds a process-killing event handler to the SIGINT ev
   // Disable prompt's built-in SIGINT handling:
   //
   prompt.start({noHandleSIGINT: true});
+  
+  process.on('SIGINT', function() {
+    console.log("This will execute when you hit CTRL+C");
+    process.exit();
+  });
+```
 
 
 ## Installation
