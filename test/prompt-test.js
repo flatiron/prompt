@@ -369,7 +369,7 @@ vows.describe('prompt').addBatch({
     "the get() method": {
       "with a simple string prompt": {
         "that is a property name in prompt.properties": {
-          "with a default value": {
+          "with a string literal default value": {
             topic: function () {
               var that = this;
 
@@ -383,10 +383,69 @@ vows.describe('prompt').addBatch({
             },
             "should prompt to stdout and respond with the default value": function (err, result) {
               assert.isNull(err);
-              assert.isTrue(this.msg.indexOf('riffwabbles') !== -1);
-              assert.isTrue(this.msg.indexOf('(foobizzles)') !== -1);
+              assert.notStrictEqual(this.msg.indexOf('riffwabbles'), -1);
+              assert.notStrictEqual(this.msg.indexOf('(foobizzles)'), -1);
               assert.include(result, 'riffwabbles');
               assert.equal(result['riffwabbles'], schema.properties['riffwabbles'].default);
+            }
+          },
+        }
+      }
+    }
+  }
+}).addBatch({
+  "When using prompt": {
+    "the get() method": {
+      "with a simple string prompt": {
+        "that is a property name in prompt.properties": {
+          "with a function default returning a string literal": {
+            topic: function () {
+              var that = this;
+
+              helpers.stdout.once('data', function (msg) {
+                that.msg = msg;
+              });
+
+              prompt.properties.functiondefaulttest = schema.properties.functiondefaulttest;
+              prompt.get('functionDefaultTest', this.callback);
+              helpers.stdin.writeNextTick('\n');
+            },
+            "should respond with the default value function's return value": function (err, result) {
+              assert.isNull(err);
+              assert.notStrictEqual(this.msg.indexOf('function default test'), -1);
+              assert.notStrictEqual(this.msg.indexOf('(test)'), -1);
+              assert.include(result, 'functionDefaultTest');
+              assert.strictEqual(result['functionDefaultTest'], 'test');
+            }
+          },
+        }
+      }
+    }
+  }
+}).addBatch({
+  "When using prompt": {
+    "the get() method": {
+      "with a simple string prompt": {
+        "that is a property name in prompt.properties": {
+          "with a function default that returns undefined": {
+            topic: function () {
+              var that = this;
+
+              helpers.stdout.once('data', function (msg) {
+                that.msg = msg;
+              });
+
+              prompt.properties.functiondefaultundefined =
+                schema.properties.functiondefaultundefined;
+              prompt.get('functionDefaultUndefined', this.callback);
+              helpers.stdin.writeNextTick('\n');
+            },
+            "should prompt without a default value": function (err, result) {
+              assert.isNull(err);
+              assert.notStrictEqual(this.msg.indexOf('function default undefined'), -1);
+              assert.strictEqual(this.msg.indexOf('('), -1);
+              assert.include(result, 'functionDefaultUndefined');
+              assert.strictEqual(result['functionDefaultUndefined'], '');
             }
           },
         }

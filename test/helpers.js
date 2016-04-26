@@ -99,6 +99,16 @@ helpers.schema = {
       message: 'riffwabbles can only be letters, numbers, and dashes',
       default: 'foobizzles'
     },
+    functiondefaulttest: {
+      message: 'function default test',
+      default: function () {
+        return 'test';
+      }
+    },
+    functiondefaultundefined: {
+      message: 'function default undefined',
+      default: function () { }
+    },
     number: {
       type: 'number',
       message: 'pick a number, any number',
