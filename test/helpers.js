@@ -99,6 +99,12 @@ helpers.schema = {
       message: 'riffwabbles can only be letters, numbers, and dashes',
       default: 'foobizzles'
     },
+    functiondefaultpluralanimal: {
+      message: 'function default plural animal',
+      default: function () {
+        return prompt.history('animal').value + 's';
+      }
+    },
     functiondefaulttest: {
       message: 'function default test',
       default: function () {

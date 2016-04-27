@@ -427,6 +427,42 @@ vows.describe('prompt').addBatch({
     "the get() method": {
       "with a simple string prompt": {
         "that is a property name in prompt.properties": {
+          "with a function default returning a string literal": {
+            topic: function () {
+              var that = this;
+
+              helpers.stdout.once('data', function (msg) {
+                // we really need the second message, so we'll
+                // ignore the first and look out for the second
+                helpers.stdout.once('data', function (msg) {
+                  that.msg = msg;
+                })
+              });
+
+              prompt.properties.animal = schema.properties.animal;
+              prompt.properties.functiondefaultpluralanimal =
+                schema.properties.functiondefaultpluralanimal;
+              prompt.get(['animal', 'functiondefaultpluralanimal'], this.callback);
+              helpers.stdin.writeSequence(['cat\n', '\n']);
+            },
+            "should respond with the default value function's return value": function (err, result) {
+              assert.isNull(err);
+              assert.notStrictEqual(this.msg.indexOf('function default plural animal'), -1);
+              assert.notStrictEqual(this.msg.indexOf('(cats)'), -1);
+              assert.strictEqual(result['animal'], 'cat');
+              assert.include(result, 'functiondefaultpluralanimal');
+              assert.strictEqual(result['functiondefaultpluralanimal'], 'cats');
+            }
+          },
+        }
+      }
+    }
+  }
+}).addBatch({
+  "When using prompt": {
+    "the get() method": {
+      "with a simple string prompt": {
+        "that is a property name in prompt.properties": {
           "with a function default that returns undefined": {
             topic: function () {
               var that = this;
