@@ -11,6 +11,8 @@ A beautiful command-line prompt for node.js
 ## Usage
 Using prompt is relatively straight forward. There are two core methods you should be aware of: `prompt.get()` and `prompt.addProperties()`. Their methods take strings representing property names in addition to objects for complex property validation (and more). There are a number of [examples][0] that you should examine for detailed usage.
 
+**Important:** Before getting started, you need to understand what exactly you can use this package for: While prompt is a neat way to ask the user for input, it's not designed to handle commands, sub commands and options. For those tasks, you also need to use something like [args](https://github.com/leo/args) or [commander](https://github.com/tj/commander.js/) in addition.
+
 ### Getting Basic Prompt Information
 Getting started with `prompt` is easy. Lets take a look at `examples/simple-prompt.js`:
 
