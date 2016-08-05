@@ -425,6 +425,23 @@ get_username_prompt(_);
 prompt.stop();
 ```
 
+## Disabling prompt's built-in SIGINT handling
+
+By default, prompt prompt binds a process-killing event handler to the SIGINT event (CTRL+C). This allows easily exiting from prompts, but can prevent an app from executing other event handlers when an interrupt is received. In order to override this default behavior, pass a `{noHandleSIGINT: true}` option into `prompt.start`.
+
+``` js
+  //
+  // Disable prompt's built-in SIGINT handling:
+  //
+  prompt.start({noHandleSIGINT: true});
+  
+  process.on('SIGINT', function() {
+    console.log("This will execute when you hit CTRL+C");
+    process.exit();
+  });
+```
+
+
 ## Installation
 
 ``` bash
