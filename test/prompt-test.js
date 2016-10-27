@@ -649,6 +649,20 @@ vows.describe('prompt').addBatch({
   }
 }).addBatch({
   "When using prompt": {
+    "the addProperties() method": {
+      topic: function () {
+        prompt.addProperties({'foo': 'foo', 'bar': 'bar'}, [], this.callback);
+      },
+      "should return the object as-is when no properties provided": function (err, obj) {
+        assert.isNull(err);
+        assert.isObject(obj);
+        assert.equal(obj.foo, 'foo');
+        assert.equal(obj.bar, 'bar');
+      }
+    }
+  }
+}).addBatch({
+  "When using prompt": {
     "the get() method": {
       "with old schema": {
         topic: function () {
