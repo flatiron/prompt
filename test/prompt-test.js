@@ -634,6 +634,20 @@ vows.describe('prompt').addBatch({
   }
 }).addBatch({
   "When using prompt": {
+    "the get() method": {
+      "skip prompt with falsy prompt.overide": {
+        topic: function () {
+          prompt.override = { coconihet: false }
+          prompt.get('coconihet', this.callback);
+        },
+        "skips prompt and uses overide": function (err, results) {
+          assert.equal(results.coconihet, false)
+        }
+      }
+    }
+  }
+}).addBatch({
+  "When using prompt": {
     "the addProperties() method": {
       topic: function () {
         prompt.addProperties({}, ['foo', 'bar'], this.callback);
