@@ -11,6 +11,12 @@
     "type": "git",
     "url": "http://github.com/flatiron/prompt.git"
   },
+  "keywords": [
+    "prompt",
+    "command-line",
+    "customize",
+    "validation"
+  ],
   "dependencies": {
     "colors": "^1.1.2",
     "read": "1.0.x",
