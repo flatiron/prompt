@@ -57,6 +57,36 @@ vows.describe('prompt').addBatch({
 }).addBatch({
   "When using prompt": {
     "the getInput() method": {
+      "with a simple string prompt": {
+          "using promises": {
+            topic: function () {
+              var that = this;
+              helpers.stdout.once('data', function (msg) {
+                that.msg = msg;
+              })
+
+              prompt.getInput('test input')
+              .then(function(input) {
+                  return that.callback(null, input);
+              })
+              .catch(function(err) {
+                  return that.callback(err, null);
+              });
+
+              helpers.stdin.writeNextTick('test value\n');
+            },
+            "should prompt to stdout and respond with data": function (err, input) {
+              assert.isNull(err);
+              assert.equal(input, 'test value');
+              assert.isTrue(this.msg.indexOf('test input') !== -1);
+            }
+          }
+      }
+    }
+  }
+}).addBatch({
+  "When using prompt": {
+    "the getInput() method": {
       "with any field that is not supposed to be empty": {
         "and we don't provide any input": {
           topic: function () {
