@@ -12,6 +12,10 @@ var assert = require('assert'),
     macros = require('./macros'),
     schema = helpers.schema;
 
+// fix for vows, util.print/puts was removed from node
+require('util').print = console.log;
+require('util').puts = console.log;
+
 // A helper to pass fragments of our schema into prompt as full schemas.
 function grab () {
   var names = [].slice.call(arguments),
@@ -744,6 +748,22 @@ vows.describe('prompt').addBatch({
       topic: function () {
         prompt.override = { xyz: 468, abc: 123 }
         prompt.get(['xyz', 'abc'], this.callback);
+      },
+      "should respond with overrides": function (err, results) {
+        assert.isNull(err);
+        assert.deepEqual(results, { xyz: 468, abc: 123 });
+      }
+    }
+  }
+}).addBatch({
+  "when using prompt": {
+    "the get() method also works as a Promise": {
+      topic: function () {
+        var that = this;
+
+        prompt.override = { xyz: 468, abc: 123 };
+        prompt.get(['xyz', 'abc'])
+          .then(function (result) { return that.callback(null, result); });
       },
       "should respond with overrides": function (err, results) {
         assert.isNull(err);
