@@ -46,6 +46,12 @@ This will result in the following command-line output:
     email: some-user@some-place.org
 ```
 
+If no callback is passed to `prompt.get(schema)`, then it returns a `Promise`, so you can also write:
+```js
+const {username, email} = await prompt.get(['username', 'email']);
+```
+
+
 ### Prompting with Validation, Default Values, and More (Complex Properties)
 In addition to prompting the user with simple string prompts, there is a robust API for getting and validating complex information from a command-line prompt. Here's a quick sample:
 
