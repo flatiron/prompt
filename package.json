@@ -22,7 +22,7 @@
     "read": "1.0.x",
     "revalidator": "0.1.x",
     "utile": "0.3.x",
-    "winston": "2.x"
+    "winston": "2.4.5"
   },
   "devDependencies": {
     "vows": "0.7.0"
