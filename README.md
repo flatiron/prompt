@@ -75,7 +75,7 @@ In addition to prompting the user with simple string prompts, there is a robust 
   prompt.start();
 
   //
-  // Get two properties from the user: email, password
+  // Get two properties from the user: name, password
   //
   prompt.get(schema, function (err, result) {
     //
