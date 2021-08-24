@@ -1,0 +1,22 @@
+{
+  "extends": [
+    "eslint:recommended"
+  ],
+  "env": {
+    "node": true,
+    "es6": false,
+  },
+  "globals": {
+    "Promise": true // used only when no callback are passed
+  },
+  "rules": {
+    "no-control-regex": "warn",
+    "no-prototype-builtins": "warn",
+    "indent": ["warn", 2, {"SwitchCase": 1}],
+    "linebreak-style": ["warn", "unix"],
+    "quotes": ["warn", "single"],
+    "no-unused-vars": "warn",
+    "no-sequences": "error",
+    "no-unused-expressions": "error",
+  }
+}

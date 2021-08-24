@@ -90,12 +90,12 @@ helpers.schema = {
   properties: {
     oldschema: {
       message: 'Enter your username',
-      validator: /^[\w|\-]+$/,
+      validator: /^[\w|-]+$/,
       warning: 'username can only be letters, numbers, and dashes',
       empty: false
     },
     riffwabbles: {
-      pattern: /^[\w|\-]+$/,
+      pattern: /^[\w|-]+$/,
       message: 'riffwabbles can only be letters, numbers, and dashes',
       default: 'foobizzles'
     },
@@ -127,7 +127,7 @@ helpers.schema = {
       type: 'boolean'
     },
     username: {
-      pattern: /^[\w|\-]+$/,
+      pattern: /^[\w|-]+$/,
       message: 'Username can only be letters, numbers, and dashes'
     },
     notblank: {

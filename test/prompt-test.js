@@ -22,11 +22,11 @@ function grab () {
       complete = { schema: {} };
 
   names.forEach(function (name) {
-    complete.path = [name],
+    complete.path = [name];
     complete.schema = schema.properties[name];
   });
   return complete;
-};
+}
 
 //
 // Reset the prompt for mock testing

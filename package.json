@@ -25,7 +25,8 @@
     "winston": "2.x"
   },
   "devDependencies": {
-    "vows": "0.7.0"
+    "eslint": "^7.32.0",
+    "vows": "^0.7.0"
   },
   "main": "./lib/prompt",
   "scripts": {
