@@ -1,4 +1,5 @@
-# prompt [![Build Status](https://secure.travis-ci.org/flatiron/prompt.svg)](http://travis-ci.org/flatiron/prompt)
+# prompt [![Build Status](https://secure.travis-ci.org/flatiron/prompt.svg)](http://travis-ci.org/flatiron/prompt) [![Npm package version](https://img.shields.io/npm/v/prompt.svg?maxAge=2592000)](https://npmjs.com/package/prompt)
+
 
 A beautiful command-line prompt for node.js
 
