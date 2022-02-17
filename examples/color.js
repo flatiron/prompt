@@ -1,5 +1,5 @@
 var prompt = require("../lib/prompt");
-var colors = require("colors/safe");
+var colors = require("@colors/colors/safe");
 //
 // Setting these properties customizes the prompt.
 //

@@ -316,12 +316,12 @@ The default `prompt.message` is "prompt," the default `prompt.delimiter` is
 ": ", and the default `property.message` is `property.name`.
 Changing these allows you to customize the appearance of your prompts! In
 addition, prompt supports ANSI color codes via the
-[colors module](https://github.com/Marak/colors.js) for custom colors. For a
+[colors module](https://github.com/DABH/colors.js) for custom colors. For a
 very colorful example:
 
 ``` js
   var prompt = require("prompt");
-  var colors = require("colors/safe");
+  var colors = require("@colors/colors/safe");
   //
   // Setting these properties customizes the prompt.
   //
