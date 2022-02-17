@@ -1,6 +1,6 @@
 {
   "name": "prompt",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "A beautiful command-line prompt for node.js",
   "author": "Nodejitsu Inc. <info@nodejitsu.com>",
   "maintainers": [
