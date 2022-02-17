@@ -19,7 +19,7 @@
   ],
   "dependencies": {
     "async": "~0.9.0",
-    "colors": "1.4.0",
+    "@colors/colors": "1.5.0",
     "read": "1.0.x",
     "revalidator": "0.1.x",
     "winston": "2.x"
