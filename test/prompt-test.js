@@ -756,6 +756,20 @@ vows.describe('prompt').addBatch({
     }
   }
 }).addBatch({
+  "when using overrides with a before hook": {
+    topic: function () {
+      prompt.override = { transformed: 'value' };
+      prompt.get({ properties: { transformed: {
+        before: function (value) { return value.toUpperCase(); }
+      } } }, this.callback);
+    },
+    "should transform the overridden value": function (err, results) {
+      assert.isNull(err);
+      assert.equal(results.transformed, 'VALUE');
+      assert.equal(prompt.override.transformed, 'value');
+    }
+  }
+}).addBatch({
   "when using prompt": {
     "the get() method also works as a Promise": {
       topic: function () {
